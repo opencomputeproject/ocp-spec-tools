@@ -1,0 +1,810 @@
+%%
+% Copyright (c) 2017 - 2021, Pascal Wagler;
+% Copyright (c) 2014 - 2021, John MacFarlane
+%
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions
+% are met:
+%
+% - Redistributions of source code must retain the above copyright
+% notice, this list of conditions and the following disclaimer.
+%
+% - Redistributions in binary form must reproduce the above copyright
+% notice, this list of conditions and the following disclaimer in the
+% documentation and/or other materials provided with the distribution.
+%
+% - Neither the name of John MacFarlane nor the names of other
+% contributors may be used to endorse or promote products derived
+% from this software without specific prior written permission.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+% "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+% LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+% FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+% COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+% INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+% BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+% LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+% CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+% LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+% ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+% POSSIBILITY OF SUCH DAMAGE.
+%%
+
+%% Enable useful error output.
+\errorcontextlines=10000
+
+%%
+% This template has been heavily customized for Trusted Computing Group.
+% It started out as the Eisvogel pandoc LaTeX template.
+%
+% For usage information and examples visit the official GitHub page:
+% https://github.com/Wandmalfarbe/pandoc-latex-template
+%%
+
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode,hyperfootnotes=false}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*,table}{xcolor}
+\PassOptionsToPackage{perpage}{footmisc}
+
+\documentclass[
+  paper=letter,
+  captions=tableheading,
+  toc=sectionentrywithdots,
+  numbers=noenddot
+]{scrartcl}
+
+\usepackage{amsmath,amssymb}
+\usepackage{mathtools}
+\usepackage{setspace}
+\setstretch{1.0}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{ifxetex,ifluatex}
+\usepackage[space,spacefont="Arial"]{accsupp}
+\usepackage{pdflscape}
+\usepackage[none]{hyphenat}
+\usepackage[normalem]{ulem}
+
+% Use accessibility features to provide alt text for "informative" blocks that
+% also adds an invisible (but usable with screen readers) "end of informative"
+% block.
+\newcommand{\BeginDemarcated}[1]{
+  \BeginAccSupp{method=plain,ActualText=Start of #1}%
+  #1:
+  \EndAccSupp{}%
+}
+\newcommand{\EndDemarcated}[1]{
+  \BeginAccSupp{method=plain,ActualText=End of #1}%
+  {\textcolor{white}{.}\vskip -12pt}% Use a white period so it gets selected along with the block. Then retract the vertical space.
+  \EndAccSupp{}%
+}
+
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[$for(microtypeoptions)$$microtypeoptions$$sep$,$endfor$]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+
+\KOMAoptions{parskip=half}
+
+\usepackage{xcolor}
+\definecolor{default-linkcolor}{HTML}{4077C0}
+\definecolor{default-filecolor}{HTML}{4077C0}
+\definecolor{default-citecolor}{HTML}{4077C0}
+\definecolor{default-urlcolor}{HTML}{4077C0}
+
+\usepackage{bookmark}
+\bookmarksetup{numbered}
+
+% PDF metadata
+\hypersetup{
+$if(title-meta)$
+  pdftitle={$title-meta$},
+$endif$
+$if(author-meta)$
+  pdfauthor={$author-meta$},
+$endif$
+$if(lang)$
+  pdflang={$lang$},
+$endif$
+$if(subject)$
+  pdfsubject={$subject$},
+$endif$
+$if(keywords)$
+  pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
+$endif$
+$if(colorlinks)$
+  colorlinks=true,
+  linkcolor=$if(linkcolor)$$linkcolor$$else$default-linkcolor$endif$,
+  filecolor=$if(filecolor)$$filecolor$$else$default-filecolor$endif$,
+  citecolor=$if(citecolor)$$citecolor$$else$default-citecolor$endif$,
+  urlcolor=$if(urlcolor)$$urlcolor$$else$default-urlcolor$endif$,
+$else$
+  hidelinks,
+$endif$
+  breaklinks=true,
+  pdfcreator={Trusted Computing Group}}
+
+
+\urlstyle{same} % disable monospaced font for URLs
+
+% An explicit marginparwidth allows pdfmargincomment to place the icon in the right margin (for diffs).
+% 0in is fine because we don't put actual contents into the margin.
+\usepackage[top=1in,left=1in,right=1in,marginparwidth=0in,bottom=1in,$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+
+\setlength{\paperheight}{11in}
+\setlength{\paperwidth}{8.5in}
+
+$if(logo)$
+\usepackage[export]{adjustbox}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{anyfontsize}
+\usepackage{rotating}
+$endif$
+
+% https://github.com/Wandmalfarbe/pandoc-latex-template/issues/391
+% We don't care to scale images.
+\newcommand*\pandocbounded[1]{#1}
+% For reference, here is how Eisvogel defines this macro:
+% \makeatletter
+% \newsavebox\pandoc@box
+% \newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+%   \sbox\pandoc@box{#1}%
+%   \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+%   \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+%   \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+%   \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+%   \else\usebox{\pandoc@box}%
+%   \fi%
+% }
+% \makeatother
+
+% Make all verbatim environments use \small font.
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@verbatim}
+  {\verbatim@font}
+  {\verbatim@font\small}
+  {}{}
+\makeatother
+
+% Left-justify the document.
+\usepackage[document]{ragged2e}
+\RaggedRight{}
+\sloppy
+
+% Required for the tabularx filter.
+\usepackage{calc}
+\usepackage{multirow,caption,xltabular}
+\usepackage{makecell}
+
+\setlength\arrayrulewidth{1pt}
+\renewcommand{\arraystretch}{1.3}
+
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+$if(numbersections)$
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
+$else$
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+$endif$
+
+% For CSL citations/references (bibliography)
+% See: https://github.com/jgm/citeproc/issues/135
+$if(csl-refs)$
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+\begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+% allow citations to break across lines
+\let\@cite@ofmt\@firstofone
+% avoid brackets around text for \cite:
+\def\@biblabel#1{}
+\def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+{\begin{list}{}{%
+    \setlength{\itemindent}{0pt}
+    \setlength{\leftmargin}{0pt}
+    \setlength{\parsep}{0pt}
+    % turn on hanging indent if param 1 is 1
+    \ifodd #1
+    \setlength{\leftmargin}{\cslhangindent}
+    \setlength{\itemindent}{-1\cslhangindent}
+    \fi
+    % set entry spacing
+    \setlength{\itemsep}{#2\baselineskip}}}
+{\end{list}}
+% \usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+$endif$
+
+% Adjust \paragraph and \subparagraph behavior to be free-standing headings:
+% - By default, \paragraph and \subparagraph are run-in headings
+%   (appear inline with text).
+% - This block ensures they are treated as block-level headings,
+%   appearing on their own line.
+% - Only takes effect if the `block-headings` variable is enabled.
+% - Preserves original behavior for fallback if necessary.
+$if(block-headings)$
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph{}
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph{}
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+$endif$
+
+% Make use of float-package and set default placement for figures to H.
+% The option H means 'PUT IT HERE' (as  opposed to the standard h option which means 'You may put it here if you like').
+\usepackage{float}
+\floatplacement{figure}{$if(float-placement-figure)$$float-placement-figure$$else$H$endif$}
+
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+
+$if(title)$
+\title{$title$}
+$endif$
+$if(subtitle)$
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{$subtitle$}
+$endif$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+\date{$date$}
+
+% load polyglossia as late as possible as it *could* call bidi if RTL lang (e.g. Hebrew or Arabic)
+\usepackage{polyglossia}
+\setmainlanguage[]{english}
+
+%
+% for the background color of the title page
+%
+$if(titlepage)$
+\usepackage{pagecolor}
+\usepackage{afterpage}
+\usepackage{tikz}
+\usepackage[top=1in,left=1in,right=1in,bottom=1in]{geometry}
+$endif$
+
+%
+% break urls...
+%
+\PassOptionsToPackage{hyphens}{url}
+%
+% ...but not on colons or dots
+%
+\appto\UrlNoBreaks{\do\:}
+\appto\UrlNoBreaks{\do\.}
+
+%
+% captions
+%
+\definecolor{caption-color}{HTML}{0A0A0A}
+\usepackage[font={stretch=1.2}, textfont={color=caption-color}, position=top, skip=4mm, labelfont=bf, singlelinecheck=false, justification=centering]{caption}
+\setcapindent{0em}
+
+%
+% Define some colors that we'll use from style-fenced-divs.lua and informative-quote-blocks.lua.
+%
+
+% Informative text color, also used for notes and examples.
+\definecolor{informative-background}{RGB}{224, 224, 224}
+\definecolor{informative-header}{RGB}{10, 10, 10}
+\definecolor{informative-foreground}{RGB}{10, 10, 10}
+
+% Colors used for deprecation notices
+% HSL transformation on the informative colors: H = 0', S = 10%
+\definecolor{deprecated-background}{RGB}{224, 202, 202}
+\definecolor{deprecated-header}{RGB}{10, 9, 9}
+\definecolor{deprecated-foreground}{RGB}{10, 9, 9}
+
+\definecolor{table-section-background}{RGB}{224, 224, 224}
+\definecolor{table-section-foreground}{RGB}{10, 10, 10}
+
+%
+% code block style
+%
+\definecolor{codeblock-background}{RGB}{240,244,255}
+\definecolor{codeblock-header}{RGB}{35,61,130}
+\usepackage{mdframed}
+\newmdenv[
+  linewidth=0pt,
+  backgroundcolor=codeblock-background,
+  skipabove=5pt,
+  nobreak=true]{customcodeblock}
+\newmdenv[
+  linewidth=0pt,
+  backgroundcolor=informative-background,
+  skipabove=5pt,
+  nobreak=true]{informative}
+
+\newcommand{\hlineifmdframed}{}
+\newcommand{\BeginInformative}[1]{
+  % HACK: We need to add an extra hline to the ends of tables inside of notes, because
+  % (we don't know why) footers are dropped in tables inside of mdframeds.
+  \renewcommand{\hlineifmdframed}{\hline}
+  % This manual skip is here in case a section begins with a an informative block.
+  \vskip 3pt%
+  \begin{informative}
+  \textbf{\textit{\textcolor{informative-header}{\small \BeginDemarcated{#1}}}}
+  \color{informative-foreground}
+}
+\newcommand{\EndInformative}[1]{
+  \textbf{\textit{\textcolor{informative-header}{\small \EndDemarcated{#1}}}}
+  \end{informative}%
+  \vskip -7pt%
+  \renewcommand{\hlineifmdframed}{}
+}
+
+\usepackage{fontspec}
+\setmainfont{Arial}
+\setsansfont{Arial}
+\setmonofont{Noto Sans Mono}
+
+\usepackage{newunicodechar}
+% Use Arial Unicode to display various unicode symbols that might be present
+\newfontfamily{\fallbackfont}{Arial Unicode MS}[Scale=MatchLowercase]
+\DeclareTextFontCommand{\textfallback}{\fallbackfont}
+% TODO: Cover more characters with a nice loop or macro.
+\newunicodechar{≔}{\textfallback{≔}}
+\newunicodechar{⌊}{\textfallback{⌊}}
+\newunicodechar{⌋}{\textfallback{⌋}}
+\newunicodechar{⌈}{\textfallback{⌈}}
+\newunicodechar{⌉}{\textfallback{⌉}}
+\newunicodechar{⊕}{\textfallback{⊕}}
+\newunicodechar{⋅}{\textfallback{⋅}}
+\newunicodechar{≥}{\textfallback{≥}}
+\newunicodechar{≤}{\textfallback{≤}}
+\newunicodechar{≠}{\textfallback{≠}}
+\newunicodechar{©}{\textfallback{©}}
+\newunicodechar{™}{\textfallback{™}}
+\newunicodechar{→}{\textfallback{→}}
+
+\usepackage{unicode-math}
+\setmathfont{Libertinus Math} % For math mode in equations
+\setmathrm{Libertinus Serif} % For text mode in equations
+
+% Customize the spacing for math to relax it a bit.
+\thinmuskip=6mu
+\medmuskip=8mu plus 4mu minus 2mu
+\thickmuskip=10mu plus 10mu
+
+\defaultfontfeatures{Scale=MatchLowercase}
+\defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+
+%
+% Ensure that every section begins on its own page.
+%
+\addtokomafont{section}{\clearpage}
+
+%
+% variables for title, author and date
+%
+\usepackage{titling}
+\title{$title$}
+\author{$for(author)$$author$$sep$, $endfor$}
+\date{$date$}
+
+%
+% remove paragraph indentation
+%
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+
+%
+%
+% Listings
+%
+%
+
+$if(listings)$
+%
+% general listing colors
+%
+\definecolor{listing-background}{HTML}{F7F7F7}
+\definecolor{listing-rule}{HTML}{B3B2B3}
+\definecolor{listing-numbers}{HTML}{B3B2B3}
+\definecolor{listing-text-color}{HTML}{000000}
+\definecolor{listing-keyword}{HTML}{435489}
+\definecolor{listing-keyword-2}{HTML}{1284CA} % additional keywords
+\definecolor{listing-keyword-3}{HTML}{9137CB} % additional keywords
+\definecolor{listing-identifier}{HTML}{435489}
+\definecolor{listing-string}{HTML}{00999A}
+\definecolor{listing-comment}{HTML}{8E8E8E}
+
+\lstdefinestyle{eisvogel_listing_style}{
+  language         = java,
+  xleftmargin      = 0.6em,
+  framexleftmargin = 0.4em,
+  backgroundcolor  = \color{listing-background},
+  basicstyle       = \color{listing-text-color}\linespread{1.0}\small\ttfamily{},
+  breaklines       = true,
+  frame            = single,
+  framesep         = 0.19em,
+  rulecolor        = \color{listing-rule},
+  frameround       = ffff,
+  tabsize          = 4,
+  numberstyle      = \color{listing-numbers},
+  aboveskip        = 1.0em,
+  belowskip        = 0.1em,
+  abovecaptionskip = 0em,
+  belowcaptionskip = 1.0em,
+  keywordstyle     = {\color{listing-keyword}\bfseries},
+  keywordstyle     = {[2]\color{listing-keyword-2}\bfseries},
+  keywordstyle     = {[3]\color{listing-keyword-3}\bfseries\itshape},
+  sensitive        = true,
+  identifierstyle  = \color{listing-identifier},
+  commentstyle     = \color{listing-comment},
+  stringstyle      = \color{listing-string},
+  showstringspaces = false,
+  escapeinside     = {/*@}{@*/}, % Allow LaTeX inside these special comments
+  literate         =
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\'e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+  {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+  {…}{{\ldots}}1 {≥}{{>=}}1 {≤}{{<=}}1 {„}{{\glqq}}1 {“}{{\grqq}}1
+  {”}{{''}}1
+}
+\lstset{style=eisvogel_listing_style}
+
+%
+% Java (Java SE 12, 2019-06-22)
+%
+\lstdefinelanguage{Java}{
+  morekeywords={
+    % normal keywords (without data types)
+    abstract,assert,break,case,catch,class,continue,default,
+    do,else,enum,exports,extends,final,finally,for,if,implements,
+    import,instanceof,interface,module,native,new,package,private,
+    protected,public,requires,return,static,strictfp,super,switch,
+    synchronized,this,throw,throws,transient,try,volatile,while,
+    % var is an identifier
+    var
+  },
+  morekeywords={[2] % data types
+    % primitive data types
+    boolean,byte,char,double,float,int,long,short,
+    % String
+    String,
+    % primitive wrapper types
+    Boolean,Byte,Character,Double,Float,Integer,Long,Short
+    % number types
+    Number,AtomicInteger,AtomicLong,BigDecimal,BigInteger,DoubleAccumulator,DoubleAdder,LongAccumulator,LongAdder,Short,
+    % other
+    Object,Void,void
+  },
+  morekeywords={[3] % literals
+    % reserved words for literal values
+    null,true,false,
+  },
+  sensitive,
+  morecomment  = [l]//,
+  morecomment  = [s]{/*}{*/},
+  morecomment  = [s]{/**}{*/},
+  morestring   = [b]",
+  morestring   = [b]',
+}
+
+\lstdefinelanguage{XML}{
+  morestring      = [b]",
+  moredelim       = [s][\bfseries\color{listing-keyword}]{<}{\ },
+  moredelim       = [s][\bfseries\color{listing-keyword}]{</}{>},
+  moredelim       = [l][\bfseries\color{listing-keyword}]{/>},
+  moredelim       = [l][\bfseries\color{listing-keyword}]{>},
+  morecomment     = [s]{<?}{?>},
+  morecomment     = [s]{<!--}{-->},
+  commentstyle    = \color{listing-comment},
+  stringstyle     = \color{listing-string},
+  identifierstyle = \color{listing-identifier}
+}
+$endif$
+
+%
+% header and footer
+%
+\usepackage{fancyhdr}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{normal-header-footer}{
+  \fancyhf{}
+  \fancyhead[C]
+  {
+    \begin{textblock*}{8.5in}(0in,0.5in)
+    \Centering{\small{Open Compute Project \textbf{\cdotp} $title$}}
+    \end{textblock*}
+  }
+  \fancyfoot[C]
+  {
+    \begin{textblock*}{7.5in}(0.5in,10.5in)
+      {
+      \footnotesize
+      $if(date-english)$
+      Date: \textsf{$date-english$}
+      $endif$
+      \hfill
+      Page \thepage
+      }
+    \end{textblock*}
+  }
+}
+\pagestyle{normal-header-footer}
+
+% We have a few tweaks to how sections through subparagraphs work.
+% Note the use of tocnumwidth to work around issues where the TOC numbering overlaps
+% with the name of the section due to the length of the number.
+\RedeclareSectionCommand[
+  runin=false,
+  afterindent=false,
+  tocnumwidth=1.5em,
+  beforeskip=\baselineskip,
+  afterskip=0em]{section}
+\RedeclareSectionCommand[
+  runin=false,
+  afterindent=false,
+  tocindent=1.5em,
+  tocnumwidth=3em,
+  beforeskip=.75\baselineskip,
+  afterskip=0em]{subsection}
+\RedeclareSectionCommand[
+  runin=false,
+  afterindent=false,
+  tocindent=4.5em,
+  tocnumwidth=4em,
+  beforeskip=.5\baselineskip,
+  afterskip=0em]{subsubsection}
+\RedeclareSectionCommand[
+  runin=false,
+  beforeskip=.5\baselineskip,
+  afterskip=0em]{paragraph}
+\RedeclareSectionCommand[
+  runin=false,
+  beforeskip=.5\baselineskip,
+  afterskip=0em]{subparagraph}
+
+% Color the link text black in tables of contents.
+\let\OldTableOfContents\tableofcontents
+\renewcommand{\tableofcontents}{
+  {
+    \hypersetup{linkcolor=black}
+    \OldTableOfContents
+  }
+}
+% Color the link text black in lists of tables.
+\let\OldListOfTables\listoftables
+\renewcommand{\listoftables}{
+  {
+    \hypersetup{linkcolor=black}
+    \OldListOfTables
+  }
+}
+% Color the link text black in lists of figures.
+\let\OldListOfFigures\listoffigures
+\renewcommand{\listoffigures}{
+  {
+    \hypersetup{linkcolor=black}
+    \OldListOfFigures
+  }
+}
+
+% Adjust ToC formatting
+
+\makeatletter
+\renewcommand{\@dotsep}{0.5}
+\makeatother
+
+\DeclareTOCStyleEntry[beforeskip=0.2em,numwidth=1.5em,entryformat=\fontsize{11}{13}\selectfont\textbf]{default}{section}
+\DeclareTOCStyleEntry[beforeskip=0.2em,numwidth=2.3em,entryformat=\fontsize{11}{13}\selectfont]{default}{subsection}
+\DeclareTOCStyleEntry[beforeskip=0.2em,numwidth=3.1em,entryformat=\fontsize{11}{13}\selectfont]{default}{subsubsection}
+
+% Allow documents to use '\beginappendices' to easily mark the transition to appendices.
+\usepackage{appendix}
+\newcommand{\beginappendices}{
+  \newpage
+  \appendix
+  \addappheadtotoc
+}
+
+% Allow documents to use '\beginbackmatter' to easily mark the transition to the back matter (after the appendices).
+\newcommand{\beginbackmatter}{
+  \newpage
+  \let\oldsection\section
+  \renewcommand{\section}[1]{%
+    \oldsection*{##1}% Unnumbered section
+    \addcontentsline{toc}{section}{##1}% Add to the ToC
+  }
+  \let\oldsubsection\subsection
+  \renewcommand{\subsection}[1]{%
+    \oldsubsection*{##1}% Unnumbered subsection
+    \addcontentsline{toc}{subsection}{##1}% Add to the ToC
+  }
+  \let\oldsubsubsection\subsubsection
+  \renewcommand{\subsubsection}[1]{%
+    \oldsubsubsection*{##1}% Unnumbered subsubsection
+    \addcontentsline{toc}{subsubsection}{##1}% Add to the ToC
+  }
+}
+
+\newcommand{\coverbg}{resources/img/ocp_page_1.png}
+
+\usepackage{footnotebackref}
+
+\newcommand{\currenttemplateversion}{
+  {\fontsize{14}{16}\selectfont \textbf{Current Template Version:}}\\
+  3 Layer (Base, Design and Product) Specification Template V1.6.0\\
+}
+
+\newcommand{\openwebfoundationzeropointninelicense}{
+  \section{License}
+  \subsection{Open Web Foundation (OWF) CLA}
+  Contributions to this Specification are made under the terms and conditions set forth in \textbf{Modified Open Web Foundation Agreement 0.9 (OWFa 0.9)}. (As of October 16, 2024)  (“Contribution License”) by:\\
+  \vspace{11pt}
+  $for(contributor_cla_signers)$
+    $contributor_cla_signers$ \\
+  $endfor$
+  \vspace{11pt}
+  Usage of this Specification is governed by the terms and conditions set forth in \textbf{Modified OWFa 0.9 Final Specification Agreement (FSA)} (As of October 16, 2024) \textbf{(“Specification License”)}.\\
+  \vspace{11pt}
+  You can review the applicable Specification License(s) referenced above by the contributors to this Specification on the OCP website at \url{https://www.opencompute.org/contributions/templates-agreements}.\\
+  \vspace{11pt}
+  For actual executed copies of either agreement, please contact OCP directly.\\
+  \vspace{11pt}
+  \textbf{Notes:}\\
+  \vspace{11pt}
+  {
+    \setlength{\leftskip}{1cm}
+    The above license does not apply to the Appendix or Appendices. The information in the Appendix or Appendices is for reference only and non-normative in nature.\\
+  }
+  \vspace{11pt}
+  NOTWITHSTANDING THE FOREGOING LICENSES, THIS SPECIFICATION IS PROVIDED BY OCP "AS IS" AND OCP EXPRESSLY DISCLAIMS ANY WARRANTIES (EXPRESS, IMPLIED, OR OTHERWISE), INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT, FITNESS FOR A PARTICULAR PURPOSE, OR TITLE, RELATED TO THE SPECIFICATION. NOTICE IS HEREBY GIVEN, THAT OTHER RIGHTS NOT GRANTED AS SET FORTH ABOVE, INCLUDING WITHOUT LIMITATION, RIGHTS OF THIRD PARTIES WHO DID NOT EXECUTE THE ABOVE LICENSES, MAY BE IMPLICATED BY THE IMPLEMENTATION OF OR COMPLIANCE WITH THIS SPECIFICATION. OCP IS NOT RESPONSIBLE FOR IDENTIFYING RIGHTS FOR WHICH A LICENSE MAY BE REQUIRED IN ORDER TO IMPLEMENT THIS SPECIFICATION.  THE ENTIRE RISK AS TO IMPLEMENTING OR OTHERWISE USING THE SPECIFICATION IS ASSUMED BY YOU. IN NO EVENT WILL OCP BE LIABLE TO YOU FOR ANY MONETARY DAMAGES WITH RESPECT TO ANY CLAIMS RELATED TO, OR ARISING OUT OF YOUR USE OF THIS SPECIFICATION, INCLUDING BUT NOT LIMITED TO ANY LIABILITY FOR LOST PROFITS OR ANY CONSEQUENTIAL, INCIDENTAL, INDIRECT, SPECIAL OR PUNITIVE DAMAGES OF ANY CHARACTER FROM ANY CAUSES OF ACTION OF ANY KIND WITH RESPECT TO THIS SPECIFICATION, WHETHER BASED ON BREACH OF CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE, AND EVEN IF OCP HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\\
+}
+
+\newcommand{\acknowledgements}{
+  $if(acknowledgements)$
+  \section{Acknowledgements}
+  The Contributors of this Specification would like to acknowledge the following for their feedback:\\
+  \vspace{11pt}
+  $for(acknowledgements)$
+    $acknowledgements$ \\
+  $endfor$
+  $endif$
+}
+
+\newcommand{\spectypename}{}
+\ifthenelse{\equal{\detokenize{$type$}}{\detokenize{BASE}}}
+{\renewcommand{\spectypename}{Base}}
+{}
+\ifthenelse{\equal{\detokenize{$type$}}{\detokenize{DESIGN}}}
+{\renewcommand{\spectypename}{Design}}
+{}
+\ifthenelse{\equal{\detokenize{$type$}}{\detokenize{PRODUCT}}}
+{\renewcommand{\spectypename}{Product}}
+{}
+
+\begin{document}
+
+%%
+%% begin titlepage
+%%
+$if(titlepage)$
+\begin{titlepage}
+\newgeometry{top=2cm, right=4cm, bottom=3cm, left=4cm}
+$if(titlepage-color)$
+\definecolor{titlepage-color}{HTML}{$titlepage-color$}
+\newpagecolor{titlepage-color}\afterpage{\restorepagecolor}
+$endif$
+\tikz[remember picture,overlay] \node[inner sep=0pt, anchor=north] at ([yshift=-1in]current page.north){\includegraphics[width=3.34in,height=4.65in]{\coverbg}};
+\newcommand{\colorRule}[3][black]{\textcolor[HTML]{#1}{\rule{#2}{#3}}}
+\begin{flushleft}
+\noindent
+\\[-1em]
+\color[HTML]{$if(titlepage-text-color)$$titlepage-text-color$$else$5F5F5F$endif$}
+\makebox[0pt][l]{\colorRule[$if(titlepage-rule-color)$$titlepage-rule-color$$else$435488$endif$]{1.3\textwidth}{$if(titlepage-rule-height)$$titlepage-rule-height$$else$4$endif$pt}}
+\par
+\noindent
+
+$if(logo)$
+{
+  \vskip -7em
+  \hskip -7em
+  \noindent
+  \includegraphics[width=$if(logo-width)$$logo-width$$else$52mm$endif$, left]{$logo$}
+}
+$endif$
+
+% The titlepage with a background image has other text spacing and text size
+{
+  \begin{textblock*}{\textwidth}(\paperwidth/2 - \textwidth/2,6in)
+    \begin{center}
+    \setstretch{2.8}
+    {\fontsize{18}{22}\selectfont $project$ Project$if(workstream)$: $workstream$ Workstream$endif$}\\
+    \vskip 0.5em
+    {\fontsize{26}{32}\selectfont $title$}\\
+    \vskip 0.5em
+    \setstretch{1.0}
+    \fontsize{12}{14}\selectfont
+    \textsf{$version$}\\
+    \setstretch{1.0}
+    \textbf{Modular \spectypename\ Specification}\\
+    $if(date-english)$
+    Effective \textsf{$date-english$}\\
+    $endif$
+    \end{center}
+    \vskip 0.5em
+    $for(authors)$
+    Author: $authors$ \\
+    $endfor$
+  \end{textblock*}
+}
+
+\end{flushleft}
+\end{titlepage}
+\restoregeometry
+$endif$
+
+%%
+%% end titlepage
+%%
+
+\renewcommand{\contentsname}{
+  {
+    \color{black}
+    \fontsize{18}{22}\selectfont
+    Table of Contents
+    \vskip 0.4em
+  }
+}
+
+$body$
+
+\end{document}
