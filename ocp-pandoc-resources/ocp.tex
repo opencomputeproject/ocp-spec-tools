@@ -658,7 +658,8 @@ $endif$
   \addappheadtotoc
 }
 
-% Allow documents to use '\beginbackmatter' to easily mark the transition to the back matter (after the appendices).
+% The TCG pandoc build script inserts '\beginbackmatter' at the end of the input (unless --noautobackmatter is passed),
+% to easily mark the transition to the back matter (after the appendices).
 \newcommand{\beginbackmatter}{
   \newpage
   \let\oldsection\section
@@ -678,7 +679,7 @@ $endif$
   }
 }
 
-\newcommand{\coverbg}{resources/img/ocp_page_1.png}
+\newcommand{\coverbg}{extra/ocp-pandoc-resources/img/ocp_page_1.png}
 
 \usepackage{footnotebackref}
 
