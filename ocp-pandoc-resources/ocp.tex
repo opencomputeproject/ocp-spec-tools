@@ -47,6 +47,19 @@
 % For the TCG version, visit https://github.com/trustedComputingGroup/pandoc
 %%
 
+%%
+% YAML metadata fields:
+%  - title: Specification title.
+%  - type: One of {BASE, DESIGN, or PRODUCT}.
+%  - project: Project name.
+%  - workstream: Optional workstream name.
+%  - authors: List of authors.
+%  - contributor_cla_signers: List all companies or individuals that have signed the CLA.
+%  - acknowledgements: List all companies or individuals who may have assisted with the specification by providing feedback and suggestions but did not provide any IP.
+%  - bibliography: An optional bibliography.yaml file for references
+%  - csl: An optional stylesheet for references. Should use "extra/ocp-pandoc-resources/ieee.csl"
+%%
+
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode,hyperfootnotes=false}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
@@ -68,6 +81,7 @@
 \usepackage{ifxetex,ifluatex}
 \usepackage[space,spacefont="Arial"]{accsupp}
 \usepackage{pdflscape}
+\usepackage{rotating} % TODO(cfenn) why is this needed to allow detokenize?
 \usepackage[none]{hyphenat}
 \usepackage[normalem]{ulem}
 
@@ -141,14 +155,6 @@ $endif$
 
 \setlength{\paperheight}{11in}
 \setlength{\paperwidth}{8.5in}
-
-$if(logo)$
-\usepackage[export]{adjustbox}
-\usepackage{graphicx}
-\usepackage{wrapfig}
-\usepackage{anyfontsize}
-\usepackage{rotating}
-$endif$
 
 % https://github.com/Wandmalfarbe/pandoc-latex-template/issues/391
 % We don't care to scale images.
@@ -756,15 +762,6 @@ $endif$
 \makebox[0pt][l]{\colorRule[$if(titlepage-rule-color)$$titlepage-rule-color$$else$435488$endif$]{1.3\textwidth}{$if(titlepage-rule-height)$$titlepage-rule-height$$else$4$endif$pt}}
 \par
 \noindent
-
-$if(logo)$
-{
-  \vskip -7em
-  \hskip -7em
-  \noindent
-  \includegraphics[width=$if(logo-width)$$logo-width$$else$52mm$endif$, left]{$logo$}
-}
-$endif$
 
 % The titlepage with a background image has other text spacing and text size
 {
