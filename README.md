@@ -8,8 +8,6 @@ The scripts in this repository rely on TCG's [Pandoc](https://github.com/Trusted
 
 ### Running locally
 
-See the [How to Run Locally](https://github.com/TrustedComputingGroup/pandoc/blob/main/README.md#how-to-run-locally) section on running the Docker container locally. Note that instead of directly invoking `./docker_run`, this repo provides a wrapper script for producing OCP-style specifications.
-
 ```sh
-./ocp-pandoc-wrapper.sh path/to/docker_run --pdf spec.pdf spec.ocp
+./ocp-pandoc-wrapper.sh tcg-pandoc/docker_run --pdf spec.pdf spec.ocp
 ```

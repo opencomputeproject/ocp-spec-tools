@@ -1,0 +1,5 @@
+references:
+  - id: "tcg-pandoc"
+    title: "TCG Pandoc Containers"
+    publisher: "Trusted Computing Group"
+    url: "https://github.com/TrustedComputingGroup/pandoc"

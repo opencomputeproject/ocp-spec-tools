@@ -1,0 +1,82 @@
+---
+title: "Test Specification"
+type: BASE
+project: Test
+authors: [Jeff Andersen]
+contributor_cla_signers: [Jeff Andersen]
+acknowledgements: [Chris Fenner (Google)]
+bibliography: bibliography.yaml
+csl: extra/ocp-pandoc-resources/ieee.csl
+...
+---
+
+\currenttemplateversion
+
+---
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+
+---
+
+\openwebfoundationzeropointninelicense
+
+<!---
+THE UPDATED DEFAULT CONTRIBUTOR LICENSE AGREEMENT (CLA) IS [OWFa 0.9](https://146a55aca6f00848c565-a7635525d40ac1c70300198708936b4e.ssl.cf1.rackcdn.com/images/ed0befaf86bee2568ad720ff4a9a554d1f4260f7.pdf).
+PLEASE VERIFY THE CORRECT CLA/FSA IS USED AND EXECUTED FOR THIS CONTRIBUTION.
+-->
+
+\acknowledgements
+
+# Compliance with OCP Tenets
+
+<!---
+Please describe how this Specification complies with the OCP tenets. 
+A full explanation of the OCP core tenets can be seen [here](https://146a55aca6f00848c565-a7635525d40ac1c70300198708936b4e.ssl.cf1.rackcdn.com/images/bf648bb75091907147e76846cad590f402660d2e.pdf).
+-->
+
+## Openness
+
+This specification is open.
+
+## Efficiency
+
+This specification is efficient.
+
+## Impact
+
+This specification is impactful.
+
+## Scale
+
+This specification is scalable.
+
+## Sustainability
+
+This specification is sustainable.
+
+# Base specification
+
+This is a dummy base specification, rendered via TCG Pandoc [@{tcg-pandoc}] tooling. @fig:example-diagram is an example diagram, while @tbl:example-table is an example table.
+
+![Example diagram](./diagram.drawio.svg){#fig:example-diagram}
+
+Table: Example table {#tbl:example-table}
+
+| First col | Second col |
+| :-------- | :--------- |
+| One       | Three      |
+| Two       | Four       |
+
+\beginappendices
+
+# First appendix
+
+This is the first appendix.
+
+# Second appendix.
+
+This is the second appendix.
