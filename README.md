@@ -4,7 +4,7 @@ This repo contains tooling for rendering OCP specifications from Markdown.
 
 ## TCG Pandoc
 
-The scripts in this repository rely on TCG's [Pandoc](https://github.com/TrustedComputingGroup/pandoc) tooling. See the [Guide](tcg-pandoc/guide.md) (in PDF form on the TCG Pandoc [Releases](https://github.com/TrustedComputingGroup/pandoc/releases) page).
+The scripts in this repository rely on TCG's [Pandoc](https://github.com/TrustedComputingGroup/pandoc) tooling. See the [Guide](https://github.com/TrustedComputingGroup/pandoc/blob/main/guide.md) (in PDF form on the TCG Pandoc [Releases](https://github.com/TrustedComputingGroup/pandoc/releases) page).
 
 ## How to Run Locally
 
@@ -13,6 +13,9 @@ and LaTeX dependencies at work, it's easiest to use the Docker containers publis
 https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc from this repository.
 
 ```sh
+# To grab `docker_run`
+git submodule update --init --recursive
+
 docker pull ghcr.io/trustedcomputinggroup/pandoc:latest
 
 ./ocp-pandoc-wrapper.sh tcg-pandoc/docker_run --pdf spec.pdf spec.ocp
