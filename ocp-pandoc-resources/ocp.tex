@@ -58,6 +58,15 @@
 %  - acknowledgements: List all companies or individuals who may have assisted with the specification by providing feedback and suggestions but did not provide any IP.
 %  - bibliography: An optional bibliography.yaml file for references
 %  - csl: An optional stylesheet for references. Should use "extra/ocp-pandoc-resources/ieee.csl"
+%
+% Macros:
+%  - \currenttemplateversion: Prints the current template version.
+%  - \tableofcontents: Prints the table of contents.
+%  - \listoffigures: Prints the list of figures.
+%  - \listoftables: Prints the list of tables.
+%  - \openwebfoundationzeropointninelicense: Prints the OWF 0.9 license information.
+%  - \acknowledgements: Prints an acknowledgements section.
+%  - \beginappendices: Starts the appendix section.
 %%
 
 % Options for packages loaded elsewhere
@@ -662,6 +671,8 @@ $endif$
   \newpage
   \appendix
   \addappheadtotoc
+  % Format appendix sections as "Appendix A:"
+  \renewcommand*{\sectionformat}{\appendixname~\thesection:\enskip}
 }
 
 % The TCG pandoc build script inserts '\beginbackmatter' at the end of the input (unless --noautobackmatter is passed),
