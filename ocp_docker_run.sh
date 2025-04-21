@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-OCP_CONTACT="https://www.opencompute.org/contact"
-RESOURCE_DIR_NAME=ocp-pandoc-resources
+RESOURCE_DIR_NAME=ocp_pandoc_resources
 
 print_usage() {
   echo "Usage:"
@@ -33,9 +32,7 @@ docker run \
   --volume=${resource_dir}:/extra_resources/${RESOURCE_DIR_NAME} \
   "${docker_image}" \
   --crossref=tcg \
-  --csl extra/ocp-pandoc-resources/ieee.csl \
-  --metadata_contact "${OCP_CONTACT}" \
-  --metadata_logo extra/ocp-pandoc-resources/img/ocp_logo.png \
+  --csl extra/${RESOURCE_DIR_NAME}/ieee.csl \
   --nogitversion \
-  --template extra/ocp-pandoc-resources/ocp.tex \
+  --template extra/${RESOURCE_DIR_NAME}/ocp.tex \
   "$@"

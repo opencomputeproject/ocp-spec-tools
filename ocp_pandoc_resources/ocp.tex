@@ -68,6 +68,8 @@
 %  - \beginappendices: Starts the appendix section.
 %%
 
+\newcommand{\ocpresourcedir}{ocp_pandoc_resources}
+
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode,hyperfootnotes=false}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
@@ -90,6 +92,7 @@
 \usepackage[space,spacefont="Arial"]{accsupp}
 \usepackage{pdflscape}
 \usepackage{rotating} % TODO(cfenn) why is this needed to allow detokenize?
+\usepackage{wrapfig}
 \usepackage[none]{hyphenat}
 \usepackage[normalem]{ulem}
 
@@ -595,15 +598,15 @@ $endif$
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-\fancypagestyle{normal-header-footer}{
-  \fancyhf{}
-  \fancyhead[C]
+\newcommand{\ocphead}{
   {
     \begin{textblock*}{8.5in}(0in,0.5in)
     \Centering{\small{Open Compute Project \textbf{\cdotp} $title$}}
     \end{textblock*}
   }
-  \fancyfoot[C]
+}
+
+\newcommand{\ocpfoot}{
   {
     \begin{textblock*}{7.5in}(0.5in,10.5in)
       {
@@ -615,6 +618,31 @@ $endif$
       Page \thepage
       }
     \end{textblock*}
+  }
+}
+
+\fancypagestyle{normal-header-footer}{
+  \fancyhf{}
+  \fancyhead[C]
+  {
+    \ocphead
+  }
+  \fancyfoot[C]
+  {
+    \ocpfoot
+  }
+}
+\fancypagestyle{informative-header-footer}{
+  \fancyhead[C]
+  {
+    \ocphead
+    \begin{textblock*}{8.5in}(0in,0.7in)
+      \Centering\textbf{\textit{\textcolor{informative-header}{\small{Informative Section}}}}
+    \end{textblock*}
+  }
+  \fancyfoot[C]
+  {
+    \ocpfoot
   }
 }
 \pagestyle{normal-header-footer}
@@ -717,7 +745,7 @@ $endif$
   }
 }
 
-\newcommand{\coverbg}{extra/ocp-pandoc-resources/img/ocp_page_1.png}
+\newcommand{\coverbg}{extra/\ocpresourcedir/img/ocp_page_1.png}
 
 \usepackage{footnotebackref}
 
