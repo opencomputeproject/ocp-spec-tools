@@ -16,9 +16,7 @@ https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc from this 
 docker pull ghcr.io/trustedcomputinggroup/pandoc:latest
 
 # Must run from the directory containing the input file
-cd sample
-
-../ocp_docker_run.sh --pdf spec.pdf spec.ocp
+(cd sample && ../ocp_docker_run.sh --pdf spec.pdf spec.ocp)
 ```
 
 ## How to Build Locally
