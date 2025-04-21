@@ -15,7 +15,7 @@ it's easiest to use TCG's published [Docker containers](https://github.com/trust
 docker pull ghcr.io/trustedcomputinggroup/pandoc:latest
 
 # Must run from the directory containing the input file
-(cd sample && ../ocp_docker_run.sh --pdf spec.pdf spec.ocp)
+(cd sample && ../ocp-docker-run.sh --pdf spec.pdf spec.ocp)
 ```
 
 ## How to Build Locally

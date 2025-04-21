@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-RESOURCE_DIR_NAME=ocp_pandoc_resources
+RESOURCE_DIR_NAME=ocp-pandoc-resources
 
 print_usage() {
   echo "Usage:"
