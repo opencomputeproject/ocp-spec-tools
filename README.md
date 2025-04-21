@@ -8,9 +8,9 @@ The scripts in this repository rely on TCG's [Pandoc](https://github.com/Trusted
 
 ## How to Run Locally
 
-Your workflow may prefer local development and rendering. Due to the complexity of the various Pandoc
-and LaTeX dependencies at work, it's easiest to use the Docker containers published at
-https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc from this repository.
+Due to the complexity of the various Pandoc and LaTeX dependencies at work,
+it's easiest to use the Docker containers published at
+https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc.
 
 ```sh
 docker pull ghcr.io/trustedcomputinggroup/pandoc:latest
