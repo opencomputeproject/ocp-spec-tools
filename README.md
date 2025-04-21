@@ -13,15 +13,12 @@ and LaTeX dependencies at work, it's easiest to use the Docker containers publis
 https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc from this repository.
 
 ```sh
-# To grab `docker_run`
-git submodule update --init --recursive
-
 docker pull ghcr.io/trustedcomputinggroup/pandoc:latest
 
 # Must run from the directory containing the input file
 cd sample
 
-../ocp-pandoc-wrapper.sh ../tcg-pandoc/docker_run --pdf spec.pdf spec.ocp
+../ocp_docker_run.sh --pdf spec.pdf spec.ocp
 ```
 
 ## How to Build Locally

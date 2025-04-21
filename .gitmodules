@@ -1,3 +1,0 @@
-[submodule "tcg-pandoc"]
-	path = tcg-pandoc
-	url = https://github.com/TrustedComputingGroup/pandoc
