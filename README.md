@@ -18,6 +18,12 @@ it's easiest to use TCG's published [Docker containers](https://github.com/trust
 (cd sample && ../docker-run.sh --pdf spec.pdf spec.ocp)
 ```
 
+HTML support is experimental.
+
+```sh
+(cd sample && ../docker-run.sh --html spec.html spec.ocp)
+```
+
 ## How to Build Locally
 
 See the TCG Pandoc [README](https://github.com/TrustedComputingGroup/pandoc/blob/main/README.md#how-to-build-locally) for how to build locally.

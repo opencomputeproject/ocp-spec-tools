@@ -10,3 +10,4 @@
 *.fdb_latexmk
 *.upa
 *.upb
+*.mermaid.svg
