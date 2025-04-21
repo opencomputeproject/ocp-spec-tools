@@ -50,6 +50,7 @@
 %%
 % YAML metadata fields:
 %  - title: Specification title.
+%  - version: Specification version.
 %  - type: One of {BASE, DESIGN, or PRODUCT}.
 %  - project: Project name.
 %  - workstream: Optional workstream name.
@@ -831,17 +832,17 @@ $endif$
     {\fontsize{18}{22}\selectfont $project$ Project$if(workstream)$: $workstream$ Workstream$endif$}\\
     \vskip 0.5em
     {\fontsize{26}{32}\selectfont $title$}\\
-    \vskip 0.5em
+    \vskip 1.7em
     \setstretch{1.0}
     \fontsize{12}{14}\selectfont
     \textsf{$version$}\\
-    \setstretch{1.0}
+    \vskip 1.4em
     \textbf{Modular \spectypename\ Specification}\\
     $if(date-english)$
     Effective \textsf{$date-english$}\\
     $endif$
     \end{center}
-    \vskip 0.5em
+    \vskip 2em
     $for(authors)$
     Author: $authors$ \\
     $endfor$
