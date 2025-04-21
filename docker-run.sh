@@ -35,4 +35,7 @@ docker run \
   --csl extra/${RESOURCE_DIR_NAME}/ieee.csl \
   --nogitversion \
   --template extra/${RESOURCE_DIR_NAME}/ocp.tex \
+  --template_html extra/${RESOURCE_DIR_NAME}/ocp.html.template \
+  --html_stylesheet extra/${RESOURCE_DIR_NAME}/ocp.css \
+  --html_stylesheet extra/${RESOURCE_DIR_NAME}/github-markdown.css \
   "$@"

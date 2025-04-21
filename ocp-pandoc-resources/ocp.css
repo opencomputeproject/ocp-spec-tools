@@ -1,0 +1,168 @@
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  margin: 0 auto;
+  padding: 45px;
+  font-size: 12px;
+}
+@media (max-width: 767px) {
+  .markdown-body {
+    padding: 1px;
+  }
+}
+
+.markdown-body table td,
+.markdown-body table th {
+  border: 1px solid #dfe2e5;
+  padding-left: 2px;
+  padding-right: 2px;
+  page-break-inside : avoid;
+  font-size: 12px;
+}
+
+.markdown-body ul {
+  padding-left: 0;
+  margin-left: 2em;
+}
+
+.markdown-body table th {
+  background-color : #DCDCDC;
+}
+
+.csl-left-margin {
+  display: inline;
+}
+
+.csl-right-inline {
+  display: inline;
+}
+
+p {
+  widows : 2;
+}
+
+a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.wip {
+  font-weight: normal;
+  margin-bottom: 0em;
+  padding: 0.5em;
+  position: relative;
+  text-align: left;
+  border: 2px ridge #eee;
+}
+
+.preamble {
+  font-weight: bold;
+  text-align: right;
+}
+
+.toc {
+  padding-left: 0;
+  margin-left: 0em; 
+}
+
+.toc ul {
+  list-style-type: none;
+  margin-left: 0em; 
+  padding-left: 0em ;
+}
+
+.toc ul ul {
+  list-style-type: none;
+  margin-left: 1.5em; 
+  padding-left: 0em ;
+  list-style-position: outside;
+}
+
+nav {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+body {
+  border-collapse: collapse;
+  color: #333;
+  font-size: 13px;
+  font-family: Arial;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  margin-bottom: 16px;
+  margin-top: 1em;
+}
+
+h1 {
+  font-size: 2.25em;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.75em;
+  line-height: 1.225;
+}
+
+h1, h2 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.3em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.25em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  color: #777;
+  font-size: 1em;
+}
+
+tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+pre {
+  background-color: #f7f7f7;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
+  white-space: pre-wrap;
+}
+
+h1 {
+  border: none;
+}
+
+.document {
+  font-weight: bold;
+}
+
+.copyright {
+  border: 1px solid #333;
+  padding: 0.5em;
+  page-break-before: always;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: normal;
+  position: relative;
+  text-align: left;
+}
