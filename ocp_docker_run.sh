@@ -37,4 +37,5 @@ docker run \
   --metadata_logo extra/ocp-pandoc-resources/img/ocp_logo.png \
   --nogitversion \
   --template extra/ocp-pandoc-resources/ocp.tex \
+  --csl extra/ocp-pandoc-resources/ieee.csl \
   "$@"

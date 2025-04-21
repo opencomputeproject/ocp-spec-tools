@@ -6,7 +6,6 @@ authors: [Jeff Andersen]
 contributor_cla_signers: [Jeff Andersen]
 acknowledgements: [Chris Fenner (Google)]
 bibliography: bibliography.yaml
-csl: extra/ocp-pandoc-resources/ieee.csl
 ...
 ---
 
