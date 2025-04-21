@@ -18,7 +18,10 @@ git submodule update --init --recursive
 
 docker pull ghcr.io/trustedcomputinggroup/pandoc:latest
 
-./ocp-pandoc-wrapper.sh tcg-pandoc/docker_run --pdf spec.pdf spec.ocp
+# Must run from the directory containing the input file
+cd sample
+
+../ocp-pandoc-wrapper.sh ../tcg-pandoc/docker_run --pdf spec.pdf spec.ocp
 ```
 
 ## How to Build Locally
