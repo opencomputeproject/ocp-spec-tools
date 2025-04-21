@@ -66,10 +66,13 @@ This is a dummy base specification, rendered via TCG Pandoc [@{tcg-pandoc}] tool
 
 @tbl:example-table is an example table.
 
++-----------+------------+
 | First col | Second col |
-| :-------- | :--------- |
++===========+============+
 | One       | Three      |
++-----------+------------+
 | Two       | Four       |
++-----------+------------+
 
 Table: Example table {#tbl:example-table}
 
