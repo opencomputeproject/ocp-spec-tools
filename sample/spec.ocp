@@ -72,6 +72,26 @@ This is a dummy base specification, rendered via TCG Pandoc [@{tcg-pandoc}] tool
 
 Table: Example table {#tbl:example-table}
 
+@fig:tpm-startup and @fig:flowchart are example Mermaid diagrams.
+
+```mermaid {caption="Startup Sequence" #fig:tpm-startup}
+sequenceDiagram
+Host->>TPM: TPM2_Startup
+loop Measurements
+    Host->>TPM: TPM2_PCR_Extend
+end
+Host->>TPM: TPM2_Quote
+TPM->>Host: <quoted PCRs>
+```
+
+```mermaid {caption="Flowchart" #fig:flowchart}
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
 \beginappendices
 
 # First appendix

@@ -391,6 +391,28 @@ $endif$
   \vskip -7pt%
   \renewcommand{\hlineifmdframed}{}
 }
+\newcommand{\BeginDeprecated}{
+  % HACK: We need to add an extra hline to the ends of tables inside of notes, because
+  % (we don't know why) footers are dropped in tables inside of mdframeds.
+  \renewcommand{\hlineifmdframed}{\hline}
+  % This manual skip is here in case a section begins with a an informative block.
+  \vskip 3pt%
+  \begin{informative}
+  \textbf{\textit{\textcolor{informative-header}{\small \BeginDemarcated{Deprecated}}}}
+  % The size of the triangle is calculated so that it doesn't overflow the box
+  % at its minimum height (one line of text)
+  \begin{wrapfigure}{R}{2.6em}
+    \vskip -2.5em%
+    \includegraphics[width=2.5em]{/resources/img/deprecated.pdf}
+  \end{wrapfigure}
+  \color{informative-foreground}
+}
+\newcommand{\EndDeprecated}{
+  \textbf{\textit{\textcolor{informative-header}{\small \EndDemarcated{Deprecated}}}}
+  \end{informative}%
+  \vskip -7pt%
+  \renewcommand{\hlineifmdframed}{}
+}
 
 \usepackage{fontspec}
 \setmainfont{Arial}
