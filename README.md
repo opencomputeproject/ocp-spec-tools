@@ -12,7 +12,7 @@ Due to the complexity of the various Pandoc and LaTeX dependencies at work,
 it's easiest to use TCG's published [Docker containers](https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc).
 
 ```sh
-docker pull ghcr.io/trustedcomputinggroup/pandoc:latest
+./ocp-docker-pull.sh
 
 # Must run from the directory containing the input file
 (cd sample && ../ocp-docker-run.sh --pdf spec.pdf spec.ocp)
