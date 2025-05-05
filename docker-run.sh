@@ -34,8 +34,8 @@ docker run \
   --crossref=tcg \
   --csl extra/${RESOURCE_DIR_NAME}/ieee.csl \
   --nogitversion \
-  --template extra/${RESOURCE_DIR_NAME}/ocp.tex \
-  --template_html extra/${RESOURCE_DIR_NAME}/ocp.html.template \
-  --html_stylesheet extra/${RESOURCE_DIR_NAME}/ocp.css \
-  --html_stylesheet extra/${RESOURCE_DIR_NAME}/github-markdown.css \
+  --template extra/${RESOURCE_DIR_NAME}/pdf/ocp.tex \
+  --template_html extra/${RESOURCE_DIR_NAME}/html/ocp.html.template \
+  --html_stylesheet extra/${RESOURCE_DIR_NAME}/html/ocp.css \
+  --html_stylesheet extra/${RESOURCE_DIR_NAME}/html/github_markdown.css \
   "$@"
