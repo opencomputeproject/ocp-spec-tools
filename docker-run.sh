@@ -36,6 +36,6 @@ docker run \
   --nogitversion \
   --template extra/${RESOURCE_DIR_NAME}/pdf/ocp.tex \
   --template_html extra/${RESOURCE_DIR_NAME}/html/ocp.html.template \
-  --html_stylesheet extra/${RESOURCE_DIR_NAME}/html/ocp.css \
-  --html_stylesheet extra/${RESOURCE_DIR_NAME}/html/github_markdown.css \
+  --html_stylesheet extra/${RESOURCE_DIR_NAME}/html/style.css \
+  --html_stylesheet extra/${RESOURCE_DIR_NAME}/html/github-markdown.css \
   "$@"
