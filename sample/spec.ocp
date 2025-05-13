@@ -96,6 +96,32 @@ graph TD;
     C-->D;
 ```
 
+@fig:tpm-startup-uml and @fig:sample-uml are example UML diagrams.
+
+```plantuml {caption="Startup Sequence (UML)" #fig:tpm-startup-uml}
+participant Host
+participant TPM
+
+Host -> TPM: TPM2_Startup
+loop Measurements
+    Host -> TPM: TPM2_PCR_Extend
+end
+Host -> TPM: TPM2_Quote
+TPM -> Host: <quoted PCRs>
+```
+
+```plantuml {caption="Included UML" #fig:sample-uml}
+!include sample.uml.inc
+
+Foo -> Foo1 : To actor
+Foo -> Foo2 : To boundary
+Foo -> Foo3 : To control
+Foo -> Foo4 : To entity
+Foo -> Foo5 : To database
+Foo -> Foo6 : To collections
+Foo -> Foo7: To queue
+```
+
 \beginappendices
 
 # First appendix
