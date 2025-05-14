@@ -6,7 +6,7 @@ project: Test
 authors: [Jeff Andersen]
 contributor_cla_signers: [Jeff Andersen]
 acknowledgements: [Chris Fenner (Google)]
-bibliography: bibliography.yaml
+bibliography: sample-bibliography.yaml
 ...
 ---
 
@@ -62,7 +62,7 @@ This specification is sustainable.
 
 This is a dummy base specification, rendered via TCG Pandoc [@{tcg-pandoc}] tooling. @fig:example-diagram is an example diagram.
 
-![Example diagram](./diagram.drawio.svg){#fig:example-diagram}
+![Example diagram](./sample-diagram.drawio.svg){#fig:example-diagram}
 
 @tbl:example-table is an example table.
 
@@ -111,7 +111,7 @@ TPM -> Host: <quoted PCRs>
 ```
 
 ```plantuml {caption="Included UML" #fig:sample-uml}
-!include sample.uml.inc
+!include sample-uml.inc
 
 Foo -> Foo1 : To actor
 Foo -> Foo2 : To boundary
@@ -120,6 +120,22 @@ Foo -> Foo4 : To entity
 Foo -> Foo5 : To database
 Foo -> Foo6 : To collections
 Foo -> Foo7: To queue
+```
+
+You can use triple backticks to create blocks of code, and can specify the language, for syntax highlighting:
+
+````md
+```c
+// Comment
+int i = 8472;
+```
+````
+
+The result looks like this:
+
+```c
+// Comment
+int i = 8472;
 ```
 
 \beginappendices
