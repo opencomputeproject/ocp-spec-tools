@@ -168,6 +168,14 @@ $endif$
 \setlength{\paperheight}{11in}
 \setlength{\paperwidth}{8.5in}
 
+%
+% This is where the Haskell library skylighting will inject its definitions for the Shaded and Highlighting environments.
+% See also: https://github.com/jgm/pandoc/issues/7923
+%
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
 % https://github.com/Wandmalfarbe/pandoc-latex-template/issues/391
 % We don't care to scale images.
 \newcommand*\pandocbounded[1]{#1}
