@@ -4,8 +4,6 @@ version: 0.1
 type: BASE
 project: Test
 authors: [Jeff Andersen]
-contributor_cla_signers: [Jeff Andersen]
-acknowledgements: [Chris Fenner (Google)]
 bibliography: sample-bibliography.yaml
 ...
 ---
@@ -22,14 +20,9 @@ bibliography: sample-bibliography.yaml
 
 ---
 
-\openwebfoundationzeropointninelicense
+# Acknowledgements
 
-<!---
-THE UPDATED DEFAULT CONTRIBUTOR LICENSE AGREEMENT (CLA) IS [OWFa 0.9](https://146a55aca6f00848c565-a7635525d40ac1c70300198708936b4e.ssl.cf1.rackcdn.com/images/ed0befaf86bee2568ad720ff4a9a554d1f4260f7.pdf).
-PLEASE VERIFY THE CORRECT CLA/FSA IS USED AND EXECUTED FOR THIS CONTRIBUTION.
--->
-
-\acknowledgements
+We wish to acknowledge Chris Fenner (Google) and the Trusted Computing Group for the use of their Pandoc markdown tooling.
 
 # Compliance with OCP Tenets
 

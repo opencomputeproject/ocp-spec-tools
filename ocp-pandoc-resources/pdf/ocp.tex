@@ -55,8 +55,6 @@
 %  - project: Project name.
 %  - workstream: Optional workstream name.
 %  - authors: List of authors.
-%  - contributor_cla_signers: List all companies or individuals that have signed the CLA.
-%  - acknowledgements: List all companies or individuals who may have assisted with the specification by providing feedback and suggestions but did not provide any IP.
 %  - bibliography: An optional bibliography.yaml file for references.
 %
 % Macros:
@@ -64,8 +62,6 @@
 %  - \tableofcontents: Prints the table of contents.
 %  - \listoffigures: Prints the list of figures.
 %  - \listoftables: Prints the list of tables.
-%  - \openwebfoundationzeropointninelicense: Prints the OWF 0.9 license information.
-%  - \acknowledgements: Prints an acknowledgements section.
 %  - \beginappendices: Starts the appendix section.
 %%
 
@@ -754,42 +750,6 @@ $endif$
 \newcommand{\currenttemplateversion}{
   {\fontsize{14}{16}\selectfont \textbf{Current Template Version:}}\\
   3 Layer (Base, Design and Product) Specification Template V1.6.0\\
-}
-
-\newcommand{\openwebfoundationzeropointninelicense}{
-  \section{License}
-  \subsection{Open Web Foundation (OWF) CLA}
-  Contributions to this Specification are made under the terms and conditions set forth in \textbf{Modified Open Web Foundation Agreement 0.9 (OWFa 0.9)}. (As of October 16, 2024)  (“Contribution License”) by:\\
-  \vspace{11pt}
-  $for(contributor_cla_signers)$
-    $contributor_cla_signers$ \\
-  $endfor$
-  \vspace{11pt}
-  Usage of this Specification is governed by the terms and conditions set forth in \textbf{Modified OWFa 0.9 Final Specification Agreement (FSA)} (As of October 16, 2024) \textbf{(“Specification License”)}.\\
-  \vspace{11pt}
-  You can review the applicable Specification License(s) referenced above by the contributors to this Specification on the OCP website at \url{https://www.opencompute.org/contributions/templates-agreements}.\\
-  \vspace{11pt}
-  For actual executed copies of either agreement, please contact OCP directly.\\
-  \vspace{11pt}
-  \textbf{Notes:}\\
-  \vspace{11pt}
-  {
-    \setlength{\leftskip}{1cm}
-    The above license does not apply to the Appendix or Appendices. The information in the Appendix or Appendices is for reference only and non-normative in nature.\\
-  }
-  \vspace{11pt}
-  NOTWITHSTANDING THE FOREGOING LICENSES, THIS SPECIFICATION IS PROVIDED BY OCP "AS IS" AND OCP EXPRESSLY DISCLAIMS ANY WARRANTIES (EXPRESS, IMPLIED, OR OTHERWISE), INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT, FITNESS FOR A PARTICULAR PURPOSE, OR TITLE, RELATED TO THE SPECIFICATION. NOTICE IS HEREBY GIVEN, THAT OTHER RIGHTS NOT GRANTED AS SET FORTH ABOVE, INCLUDING WITHOUT LIMITATION, RIGHTS OF THIRD PARTIES WHO DID NOT EXECUTE THE ABOVE LICENSES, MAY BE IMPLICATED BY THE IMPLEMENTATION OF OR COMPLIANCE WITH THIS SPECIFICATION. OCP IS NOT RESPONSIBLE FOR IDENTIFYING RIGHTS FOR WHICH A LICENSE MAY BE REQUIRED IN ORDER TO IMPLEMENT THIS SPECIFICATION.  THE ENTIRE RISK AS TO IMPLEMENTING OR OTHERWISE USING THE SPECIFICATION IS ASSUMED BY YOU. IN NO EVENT WILL OCP BE LIABLE TO YOU FOR ANY MONETARY DAMAGES WITH RESPECT TO ANY CLAIMS RELATED TO, OR ARISING OUT OF YOUR USE OF THIS SPECIFICATION, INCLUDING BUT NOT LIMITED TO ANY LIABILITY FOR LOST PROFITS OR ANY CONSEQUENTIAL, INCIDENTAL, INDIRECT, SPECIAL OR PUNITIVE DAMAGES OF ANY CHARACTER FROM ANY CAUSES OF ACTION OF ANY KIND WITH RESPECT TO THIS SPECIFICATION, WHETHER BASED ON BREACH OF CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE, AND EVEN IF OCP HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\\
-}
-
-\newcommand{\acknowledgements}{
-  $if(acknowledgements)$
-  \section{Acknowledgements}
-  The Contributors of this Specification would like to acknowledge the following for their feedback:\\
-  \vspace{11pt}
-  $for(acknowledgements)$
-    $acknowledgements$ \\
-  $endfor$
-  $endif$
 }
 
 \newcommand{\spectypename}{}
