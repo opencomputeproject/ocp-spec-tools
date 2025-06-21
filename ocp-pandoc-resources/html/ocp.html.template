@@ -16,7 +16,8 @@ $endfor$
 
 $if(title)$
 <header id="title-block-header">
-<h1 class="title">$title$</h1> 
+<h1 class="title">$title$</h1>
+<h2 class="version">Version $version$</h1>
 
 $if(subtitle)$
 <p class="subtitle">$subtitle$</p>
