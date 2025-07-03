@@ -8,9 +8,24 @@
 $for(css)$
   <link rel="stylesheet" href="$css$" />
 $endfor$
-</head>
+<style>
+	.markdown-body {
+		box-sizing: border-box;
+		min-width: 200px;
+		max-width: 980px;
+		margin: 0 auto;
+		padding: 45px;
+	}
 
-<body class="markdown-body">
+	@media (max-width: 767px) {
+		.markdown-body {
+			padding: 15px;
+		}
+	}
+</style>
+</head>
+<body>
+<div class="markdown-body">
 <div align=center>
 <img src="extra/ocp-pandoc-resources/html/logo.svg" width="500px" alt="Logo">
 
@@ -65,6 +80,7 @@ $body$
 $for(include-after)$
 $include-after$
 $endfor$
+</div>
 <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
 <script>
   anchors.add('h1, h2, h3, h4, h5, h6');
