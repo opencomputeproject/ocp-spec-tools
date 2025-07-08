@@ -29,6 +29,20 @@ $endfor$
 			padding: 15px;
 		}
 	}
+
+	.markdown-body figure {
+		padding: 2em;
+		margin: 0;
+	}
+
+	.markdown-body figure figcaption {
+		padding-top: 20px;
+		text-align: center;
+	}
+
+	.markdown-body table caption {
+		padding: 20px;
+	}
 </style>
 </head>
 <body>
