@@ -53,7 +53,7 @@ Note: do not use the extension's "Table: Format All" command, as the extension m
 Note: ensure that the extension settings match what appear here:
 
 <p align="center">
-  <img src="./images/table_formatter_settings.png" alt="Table formatter settings" width="200px" style="box-shadow: 0px 2px 5px gray;" />
+  <img src="./images/table_formatter_settings.png" alt="Table formatter settings" width="500px" style="box-shadow: 0px 2px 5px gray;" />
 </p>
 
 Note: while grid tables support rowspan or colspan cells, this extension cannot format them. One workaround is to format the table with all edges present, and then as a last step, remove the edges needed to produce the desired rowspan or colspan cells.
