@@ -44,16 +44,37 @@ When creating new diagrams, be sure to enable a white background. Otherwise, the
 
 This tooling supports multiple table syntaxes. See [here](https://pandoc.org/demo/example33/8.9-tables.html) for more details on each supported syntax.
 
-Grid tables offer the most fine-grained control of column widths. With this syntax, a table's column widths in the rendered PDF are proportional to the column widths in the source file.
+Oftentimes, fine-grained control of table column widths is needed to prevent text overflow in the rendered PDF. The column widths are based on the relative widths of the separator row after the column headers.
 
-It is recommended to use a plugin to aid in formatting grid tables. The [Table Formatter](https://marketplace.visualstudio.com/items?itemName=shuworks.vscode-table-formatter) extension is suitable.
+```
+| Col 1 | Col 2 | Col 3 | Col 4 |
+|----|---|-------|----|                     <-- The widths of the separators on this line determine column widths.
+| Some | text | of | varying length |
+| 123 | 123 | 123 | 123 |
 
-Note: do not use the extension's "Table: Format All" command, as the extension misinterprets the YAML frontmatter as a table, and attempts to format it.
 
-Note: ensure that the extension settings match what appear here:
+| Col 1 | Col 2 | Col 3 | Col 4          |
+| ----- | ----- | ----- | -------------- |  <-- Auto-formatting a table will make these lengths match the column text.
+| Some  | text  | of    | varying length |
+| 123   | 123   | 123   | 123            |
+
+
++-------+-------+-------+---------+
+| Col 1 | Col 2 | Col 3 | Col 4   |
++=======+=======+=======+=========+         <-- Grid tables let you wrap text within the cell to control the column width.
+| Some  | text  | of    | varying |
+|       |       |       | length  |
++-------+-------+-------+---------+
+| 123   | 123   | 123   | 123     |
++-------+-------+-------+---------+
+```
+
+It is recommended to use a plugin to aid in formatting grid tables. This [Table Formatter](https://marketplace.visualstudio.com/items?itemName=shuworks.vscode-table-formatter) extension is suitable. When using this extension, ensure that its settings match what appear here:
 
 <p align="center">
   <img src="./images/table_formatter_settings.png" alt="Table formatter settings" width="600px" style="box-shadow: 0px 2px 5px gray;" />
 </p>
+
+Note: do not use the extension's "Table: Format All" command, as the extension misinterprets the YAML frontmatter as a table, and attempts to format it.
 
 Note: while grid tables support rowspan or colspan cells, this extension cannot format them. One workaround is to format the table with all edges present, and then as a last step, remove the edges needed to produce the desired rowspan or colspan cells.
