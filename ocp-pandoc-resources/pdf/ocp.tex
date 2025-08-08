@@ -356,17 +356,39 @@ $endif$
 \definecolor{table-section-background}{RGB}{224, 224, 224}
 \definecolor{table-section-foreground}{RGB}{10, 10, 10}
 
+\newcommand{\BeginCodeBlock}[1]{
+  \vskip 3pt
+  \begingroup
+  #1
+}
+
+\newcommand{\EndCodeBlock}{
+  \endgroup
+}
+
 %
 % code block style
 %
-\definecolor{codeblock-background}{RGB}{240,244,255}
-\definecolor{codeblock-header}{RGB}{35,61,130}
+\definecolor{codeblock-line}{RGB}{0,0,0}
+\definecolor{codeblock-background}{RGB}{255,255,255}
 \usepackage{mdframed}
-\newmdenv[
-  linewidth=0pt,
-  backgroundcolor=codeblock-background,
-  skipabove=5pt,
-  nobreak=true]{customcodeblock}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable, skins, listings}
+\tcbset{enhanced}
+
+\renewenvironment{Shaded}{
+  \begin{tcolorbox}[
+    breakable,
+    arc=0pt,
+    boxrule=1pt,
+    colback=codeblock-background,
+    colframe=codeblock-line,
+  ]
+}{
+  \end{tcolorbox}
+}
+
 \newmdenv[
   linewidth=0pt,
   backgroundcolor=informative-background,
