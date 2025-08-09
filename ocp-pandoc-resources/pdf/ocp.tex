@@ -371,7 +371,6 @@ $endif$
 %
 \definecolor{codeblock-line}{RGB}{0,0,0}
 \definecolor{codeblock-background}{RGB}{255,255,255}
-\usepackage{mdframed}
 
 \usepackage{tcolorbox}
 \tcbuselibrary{breakable, skins, listings}
@@ -389,6 +388,10 @@ $endif$
   \end{tcolorbox}
 }
 
+\usepackage{fvextra}
+\fvset{breaklines=true}
+
+\usepackage{mdframed}
 \newmdenv[
   linewidth=0pt,
   backgroundcolor=informative-background,
