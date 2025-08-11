@@ -43,6 +43,25 @@ $endfor$
 	.markdown-body table caption {
 		padding: 20px;
 	}
+
+	#refs {
+		display: table;
+	}
+
+	#refs .csl-entry {
+		display: table-row;
+	}
+
+	#refs .csl-left-margin {
+		display: table-cell;
+		padding-right: 8px;
+		text-align: right;
+	}
+
+	#refs .csl-right-inline {
+		display: table-cell;
+	}
+
 </style>
 </head>
 <body>
