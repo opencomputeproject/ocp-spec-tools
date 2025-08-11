@@ -359,6 +359,15 @@ $endif$
 \newcommand{\BeginCodeBlock}[1]{
   \vskip 3pt
   \begingroup
+
+  % The `\usepackage[none]{hyphenat}` invocation above disables hyphenation everywhere,
+  % and breaks word-wrapping on non-space characters within code blocks. This means that
+  % long symbol names without spaces will bleed off the edge of the page. Here we are
+  % re-enabling hyphenation behavior for code blocks to get non-space word-wrapping to
+  % function.
+  \hyphenpenalty=50
+  \exhyphenpenalty=50
+
   #1
 }
 
@@ -389,7 +398,12 @@ $endif$
 }
 
 \usepackage{fvextra}
-\fvset{breaklines=true}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{
+  commandchars=\\\{\},
+  breaklines,
+  breaknonspaceingroup,
+  breakafter=./:
+}
 
 \usepackage{mdframed}
 \newmdenv[
