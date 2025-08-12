@@ -1,0 +1,90 @@
+# Reusable workflow to render the spec for a variety of purposes.
+# https://docs.github.com/en/actions/using-workflows/reusing-workflows
+
+name: render
+
+on:
+  workflow_call:
+    inputs:
+      container:
+        description: the Docker container to use (default is trustedcomputinggroup/pandoc)
+        required: false
+        type: string
+        default: ghcr.io/trustedcomputinggroup/pandoc
+      container-version:
+        description: the released version of the Docker container to use
+        required: true
+        type: string
+      input:
+        description: the Markdown file to render
+        required: true
+        type: string
+      format:
+        description: the format to produce ('pdf', 'html')
+        required: true
+        type: string
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ inputs.container }}:${{ inputs.container-version }}
+    name: Render
+    steps:
+      # Use the input file name (no extension) as the base filename for the output
+      - name: Calculate output file name
+        id: gen_output_name
+        run: |
+          filename=$(basename ${{ inputs.input }})
+          filename="${filename%.*}"
+          echo OUTPUT_FILENAME="${filename}" >> "$GITHUB_OUTPUT"
+          echo output filename: ${filename}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.revision }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      # Cache the LaTeX files. Use input file and container version in the cache
+      # key so that the cache is invalidated upon file change or container
+      # version change.
+      - name: Cache LaTeX files
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-latex-${{ inputs.input }}-files
+        with:
+          path: .cache/**/*
+          key: latex-${{ inputs.input }}-${{ inputs.container-version }}-${{ github.run_id }}
+          restore-keys: latex-${{ inputs.input }}-${{ inputs.container-version }}
+
+      # Note: Variables cannot be passed into 'uses:' below to allow callers to
+      # request a version of the action, because referencing the action by local 
+      # path breaks external workflows that call to this one.
+      # 
+      # The unfortunate workaround is for this file to be updated to point at a specific commit
+      # and to reference that version of the action file in this reusable workflow.
+      - name: Render
+        uses: opencomputeproject/ocp-spec-tools/.github/actions/render@8f79b567c9dc6b15afba5d83d61e0d37f9508c47
+        with:
+          input-md: ${{ inputs.input }}
+          output-basename: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}
+          pdf: ${{ github.event.inputs.format == 'pdf' }}
+          html: ${{ github.event.inputs.format == 'html' }}
+
+      # Upload all workflow artifacts
+      - name: Upload PDF artifact
+        if: inputs.format == 'pdf'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.pdf
+          path: |
+            ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}*.pdf
+      - name: Upload HTML artifact
+        if: inputs.format == 'html'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.html
+          path: |
+            ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}*.html
