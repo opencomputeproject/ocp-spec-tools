@@ -1,18 +1,17 @@
 # Render the sample spec on pushes to main.
-name: push
+name: render-sample-spec
 
 on:
   push:
     branches: [main]
 
 jobs:
-  # Use the fresh container to render the samples.
-  render-samples:
+  render-sample:
     uses: ./.github/workflows/render.yml
     with:
       tcg-container-version: latest
       ocp-template-ref: main
-      inputs: '["sample-spec.ocp"]'
+      inputs: '["sample-spec/spec.ocp"]'
       append_git_rev_to_version: true
       pdf: true
       html: true

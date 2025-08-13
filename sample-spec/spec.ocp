@@ -4,7 +4,7 @@ version: 0.1
 type: BASE
 project: Test
 authors: [Jeff Andersen]
-bibliography: sample-bibliography.yaml
+bibliography: bibliography.yaml
 ...
 ---
 
@@ -55,7 +55,7 @@ This specification is sustainable.
 
 This is a dummy base specification, rendered via TCG Pandoc [@{tcg-pandoc}] tooling. @fig:example-diagram is an example diagram.
 
-![Example diagram](./sample-diagram.drawio.svg){#fig:example-diagram}
+![Example diagram](./diagram.drawio.svg){#fig:example-diagram}
 
 @tbl:example-table is an example table.
 
@@ -89,7 +89,7 @@ graph TD;
     C-->D;
 ```
 
-@fig:tpm-startup-uml and @fig:sample-uml are example UML diagrams.
+@fig:tpm-startup-uml and @fig:uml are example UML diagrams.
 
 ```plantuml {caption="Startup Sequence (UML)" #fig:tpm-startup-uml}
 participant Host
@@ -103,8 +103,8 @@ Host -> TPM: TPM2_Quote
 TPM -> Host: <quoted PCRs>
 ```
 
-```plantuml {caption="Included UML" #fig:sample-uml}
-!include sample-uml.inc
+```plantuml {caption="Included UML" #fig:uml}
+!include uml.inc
 
 Foo -> Foo1 : To actor
 Foo -> Foo2 : To boundary
