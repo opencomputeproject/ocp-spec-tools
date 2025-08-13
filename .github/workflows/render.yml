@@ -73,18 +73,18 @@ jobs:
           # Work around "detected dubious ownership in repository" errors.
           chown -R $(id -u):$(id -g) $PWD
 
+          commit_hash=$(git rev-parse --short HEAD)
+
           echo '${{ inputs.inputs }}' | jq -c '.[]' | while read -r input; do
             src=$(echo "$input" | jq -r '.src')
-            
+
             src_dirname=$(dirname "${src}")
             src_basename=$(basename "${src}")
 
             # The underlying tex and templates assume this exists under the "extra" folder.
             cp -R ocp-spec-tools "${src_dirname}/extra"
 
-            commit_hash=$(git rev-parse --short HEAD)
-
-            if echo "$input" | jq -e '.append_git_rev_to_version' > /dev/null; then
+            if echo "${input}" | jq -e '.append_git_rev_to_version' > /dev/null; then
               echo "Appending git rev to version string in ${src}"
 
               # The sed command handles the following transformations:
@@ -93,8 +93,8 @@ jobs:
               sed -i -r "/^---$/,/^---$/s/^(version: \"?[^\"]*)(\"?)$/\1 (Git commit ${commit_hash})\2/g" "${src}"
             fi
 
-            if echo "$input" | jq -e 'has("gh_pages_html")' > /dev/null; then
-              gh_pages_html=$(echo "$input" | jq -r '.gh_pages_html')
+            if echo "${input}" | jq -e 'has("gh_pages_html")' > /dev/null; then
+              gh_pages_html=$(echo "${input}" | jq -r '.gh_pages_html')
 
               echo "Rendering ${src} to gh-pages/${gh_pages_html}/index.html"
 
@@ -113,10 +113,10 @@ jobs:
               mv "${src_dirname}/index.html" "gh-pages/${gh_pages_html}/"
             fi
 
-            if echo "$input" | jq -e 'has("gh_pages_pdf")' > /dev/null; then
-              gh_pages_pdf=$(echo "$input" | jq -r '.gh_pages_pdf')
+            if echo "${input}" | jq -e 'has("gh_pages_pdf")' > /dev/null; then
+              gh_pages_pdf=$(echo "${input}" | jq -r '.gh_pages_pdf')
 
-              # {parent dir name}_{filename sans extension}_{git commit hash}.pdf
+              # [parent dir name]_[filename sans extension]_[git commit hash].pdf
               pdf_name="$(basename "${src_dirname}")_${src_basename%.*}_${commit_hash}.pdf"
 
               echo "Rendering ${src} to gh-pages/${gh_pages_html}/${pdf_name}"
