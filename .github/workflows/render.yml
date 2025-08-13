@@ -78,6 +78,9 @@ jobs:
             gh_pages_html=$(echo "$input" | jq -r '.gh_pages_html')
             gh_pages_pdf=$(echo "$input" | jq -r '.gh_pages_pdf')
 
+            echo "gh_pages_html: ${gh_pages_html}"
+            echo "gh_pages_pdf: ${gh_pages_pdf}"
+
             src_dirname=$(dirname "${src}")
             src_basename=$(basename "${src}")
 
@@ -95,7 +98,7 @@ jobs:
               sed -i -r "/^---$/,/^---$/s/^(version: \"?[^\"]*)(\"?)$/\1 (Git commit ${commit_hash})\2/g" "${src}"
             fi
 
-            if [ -n "${gh_pages_html}" ]; then
+            if echo "$input" | jq -e 'has("gh_pages_html")' > /dev/null; then
               echo "Rendering ${src} to gh-pages/${gh_pages_html}/index.html"
 
               (cd "${src_dirname}" && exec \
@@ -113,7 +116,7 @@ jobs:
               mv "${src_dirname}/index.html" "gh-pages/${gh_pages_html}/"
             fi
 
-            if [ -n "${gh_pages_pdf}" ]; then
+            if echo "$input" | jq -e 'has("gh_pages_pdf")' > /dev/null; then
               # {parent dir name}_{filename sans extension}_{git commit hash}.pdf
               pdf_name="$(basename "${src_dirname}")_${src_basename%.*}_${commit_hash}.pdf"
 
