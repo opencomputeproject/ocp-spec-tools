@@ -59,9 +59,8 @@ jobs:
           path: "ocp-spec-tools"
 
       # Invalidate the cache if the container or OCP template versions change.
-      - name: Restore cached files
-        id: cache-restore
-        uses: actions/cache/restore@v4
+      - name: Cache files
+        uses: actions/cache@v4
         with:
           path: "**/.cache/**/*"
           key: cache-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
@@ -152,13 +151,6 @@ jobs:
             echo "Render complete"
           done
         shell: sh
-
-      - name: Save cached files
-        id: cache-save
-        uses: actions/cache/save@v4
-        with:
-          path: "**/.cache/**/*"
-          key: cache-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
 
       # Upload all workflow artifacts
       - name: Upload artifacts
