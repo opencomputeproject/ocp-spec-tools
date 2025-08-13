@@ -59,16 +59,19 @@ jobs:
           input_dirname=$(dirname "${input_path}")
           output_filename_path="${input_path%.*}"
           output_filename_base=$(basename "${output_filename_path}")
+          artifact_name=$(sed "s/[^a-zA-Z_.-]/./g" <<< "${output_filename_base}")
 
           echo INPUT_BASENAME="${input_basename}" >> "$GITHUB_OUTPUT"
           echo INPUT_DIRNAME="${input_dirname}" >> "$GITHUB_OUTPUT"
           echo OUTPUT_FILENAME_PATH="${output_filename_path}" >> "$GITHUB_OUTPUT"
           echo OUTPUT_FILENAME_BASE="${output_filename_base}" >> "$GITHUB_OUTPUT"
+          echo ARTIFACT_NAME="${artifact_name}" >> "$GITHUB_OUTPUT"
 
           echo input_basename: ${input_basename}
           echo input_dirname: ${input_dirname}
           echo output_filename_path: ${output_filename_path}
           echo output_filename_base: ${output_filename_base}
+          echo artifact_name: ${artifact_name}
 
       - name: Checkout inputs
         uses: actions/checkout@v4
@@ -138,7 +141,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.gen_paths.outputs.OUTPUT_FILENAME_PATH }}
+          name: ${{ steps.gen_paths.outputs.ARTIFACT_NAME }}
           path: |
             ${{ steps.gen_paths.outputs.OUTPUT_FILENAME_PATH }}.pdf
             ${{ steps.gen_paths.outputs.OUTPUT_FILENAME_PATH }}.html
