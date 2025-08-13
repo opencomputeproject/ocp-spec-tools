@@ -76,19 +76,19 @@ jobs:
         with:
           input-md: ${{ inputs.input }}
           output-basename: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}
-          pdf: ${{ github.event.inputs.pdf == 'true' }}
-          html: ${{ github.event.inputs.html == 'true' }}
+          pdf: ${{ inputs.pdf == 'true' }}
+          html: ${{ inputs.html == 'true' }}
 
       # Upload all workflow artifacts
       - name: Upload PDF artifact
-        if: ${{ github.event.inputs.pdf == true }}
+        if: ${{ inputs.pdf == true }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.pdf
           path: |
             ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}*.pdf
       - name: Upload HTML artifact
-        if: ${{ github.event.inputs.html == true }}
+        if: ${{ inputs.html == true }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.html
