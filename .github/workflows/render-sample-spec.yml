@@ -9,13 +9,14 @@ jobs:
   render-sample:
     uses: ./.github/workflows/render.yml
     with:
-      tcg-container-version: latest
+      tcg-container-version: v0.18.12
       ocp-template-ref: main
       inputs: >-
         [
           {
             "src": "sample-spec/spec.ocp",
             "append_git_rev_to_version": true,
-            "gh_pages_html": "sample-spec/HEAD"
+            "gh_pages_html": "sample-spec/HEAD",
+            "gh_pages_pdf": "sample-spec/HEAD/pdf"
           }
         ]
