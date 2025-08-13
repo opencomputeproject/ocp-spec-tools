@@ -119,7 +119,7 @@ You can use triple backticks to create blocks of code, and can specify the langu
 
 ````md
 ```c
-// A comment
+// Comment
 int i = 8472;
 ```
 ````
@@ -127,7 +127,7 @@ int i = 8472;
 The result looks like this:
 
 ```c
-// A comment
+// Comment
 int i = 8472;
 ```
 
