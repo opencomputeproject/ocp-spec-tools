@@ -10,7 +10,8 @@ jobs:
   render-samples:
     uses: ./.github/workflows/render.yml
     with:
-      container-version: latest
+      tcg-container-version: latest
+      ocp-template-ref: main
       input: sample-spec.ocp
       pdf: true
       html: true

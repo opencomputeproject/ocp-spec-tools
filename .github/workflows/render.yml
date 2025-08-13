@@ -11,8 +11,12 @@ on:
         required: false
         type: string
         default: ghcr.io/trustedcomputinggroup/pandoc
-      container-version:
+      tcg-container-version:
         description: the released version of the Docker container to use
+        required: true
+        type: string
+      ocp-template-ref:
+        description: Git branch, tag or SHA for opencomputeproject/ocp-spec-tools template resources
         required: true
         type: string
       input:
@@ -34,7 +38,7 @@ jobs:
   render:
     runs-on: ubuntu-latest
     container:
-      image: ${{ inputs.container }}:${{ inputs.container-version }}
+      image: ${{ inputs.container }}:${{ inputs.tcg-container-version }}
     name: Render
     steps:
       # Use the input file name (no extension) as the base filename for the output
@@ -46,38 +50,58 @@ jobs:
           echo OUTPUT_FILENAME="${filename}" >> "$GITHUB_OUTPUT"
           echo output filename: ${filename}
 
-      - name: Checkout
+      - name: Checkout inputs
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.revision }}
           fetch-depth: 0
           fetch-tags: true
 
-      # Cache the LaTeX files. Use input file and container version in the cache
-      # key so that the cache is invalidated upon file change or container
-      # version change.
-      - name: Cache LaTeX files
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-latex-${{ inputs.input }}-files
+      - name: Checkout OCP template resources
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          repository: "opencomputeproject/ocp-spec-tools"
+          ref: ${{ inputs.ocp-template-ref }}
+          # The underlying tex and templates assume this exists under the "extra" folder.
+          path: "extra"
+
+      # Use input file and container version in the cache key so that the cache
+      # is invalidated upon file change or container version change.
+      - name: Restore cached files
+        id: cache-restore
+        uses: actions/cache/restore@v4
         with:
           path: .cache/**/*
-          key: latex-${{ inputs.input }}-${{ inputs.container-version }}-${{ github.run_id }}
-          restore-keys: latex-${{ inputs.input }}-${{ inputs.container-version }}
+          key: cache-${{ inputs.input }}-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
+          restore-keys: cache-${{ inputs.input }}-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}
 
-      # Note: Variables cannot be passed into 'uses:' below to allow callers to
-      # request a version of the action, because referencing the action by local 
-      # path breaks external workflows that call to this one.
-      # 
-      # The unfortunate workaround is for this file to be updated to point at a specific commit
-      # and to reference that version of the action file in this reusable workflow.
-      - name: Render
-        uses: opencomputeproject/ocp-spec-tools/.github/actions/render@b01f429cd199757540f08117e52fa921f275f586
+      # Let the container take ownership of the repo dir, in case the user wants to check in the results.
+      # Workaround to https://github.com/actions/runner/issues/2033
+      - run: chown -R $(id -u):$(id -g) $PWD
+        shell: sh
+
+      # Perform the render.
+      - run: |
+          /usr/bin/build.sh
+          --nogitversion
+          --crossref=tcg
+          --csl extra/ocp-pandoc-resources/ieee.csl
+          --template extra/ocp-pandoc-resources/pdf/ocp.tex
+          --template_html extra/ocp-pandoc-resources/html/ocp.html.template
+          --html_stylesheet extra/ocp-pandoc-resources/html/style.css
+          $( ${{ inputs.pdf }}  && echo --pdf=${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.pdf )
+          $( ${{ inputs.html }} && echo --html=${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.html )
+          ${{ inputs.input-md }}
+        shell: sh
+
+      - name: Save cached files
+        id: cache-save
+        uses: actions/cache/save@v4
         with:
-          input-md: ${{ inputs.input }}
-          output-basename: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}
-          pdf: ${{ inputs.pdf }}
-          html: ${{ inputs.html }}
+          path: .cache/**/*
+          key: cache-${{ inputs.input }}-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
 
       # Upload all workflow artifacts
       - name: Upload PDF artifact
