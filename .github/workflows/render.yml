@@ -76,23 +76,21 @@ jobs:
 
       - name: Checkout OCP template resources
         uses: actions/checkout@v4
-        working-directory: ${{ steps.gen_output_name.outputs.INPUT_DIRNAME }}
         with:
           fetch-depth: 0
           fetch-tags: true
           repository: "opencomputeproject/ocp-spec-tools"
           ref: ${{ inputs.ocp-template-ref }}
           # The underlying tex and templates assume this exists under the "extra" folder.
-          path: "extra"
+          path: "${{ format('{0}/extra', steps.gen_output_name.outputs.INPUT_DIRNAME) }}"
 
       # Use input file and container version in the cache key so that the cache
       # is invalidated upon file change or container version change.
       - name: Restore cached files
         id: cache-restore
         uses: actions/cache/restore@v4
-        working-directory: ${{ steps.gen_output_name.outputs.INPUT_DIRNAME }}
         with:
-          path: .cache/**/*
+          path: "${{ format('{0}/.cache/**/*', steps.gen_output_name.outputs.INPUT_DIRNAME) }}"
           key: cache-${{ matrix.item }}-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
           restore-keys: cache-${{ matrix.item }}-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}
 
@@ -129,9 +127,8 @@ jobs:
       - name: Save cached files
         id: cache-save
         uses: actions/cache/save@v4
-        working-directory: ${{ steps.gen_output_name.outputs.INPUT_DIRNAME }}
         with:
-          path: .cache/**/*
+          path: "${{ format('{0}/.cache/**/*', steps.gen_output_name.outputs.INPUT_DIRNAME) }}"
           key: cache-${{ matrix.item }}-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
 
       # Upload all workflow artifacts
