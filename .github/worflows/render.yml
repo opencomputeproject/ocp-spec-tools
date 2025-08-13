@@ -19,10 +19,16 @@ on:
         description: the Markdown file to render
         required: true
         type: string
-      format:
-        description: the format to produce ('pdf', 'html')
-        required: true
-        type: string
+      pdf:
+        description: 'Render to PDF'
+        required: false
+        type: 'boolean'
+        default: 'false'
+      html:
+        description: 'Render to HTML'
+        required: false
+        type: 'boolean'
+        default: 'false'
 
 jobs:
   render:
@@ -70,19 +76,19 @@ jobs:
         with:
           input-md: ${{ inputs.input }}
           output-basename: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}
-          pdf: ${{ github.event.inputs.format == 'pdf' }}
-          html: ${{ github.event.inputs.format == 'html' }}
+          pdf: ${{ github.event.inputs.pdf == 'true' }}
+          html: ${{ github.event.inputs.html == 'true' }}
 
       # Upload all workflow artifacts
       - name: Upload PDF artifact
-        if: inputs.format == 'pdf'
+        if: inputs.pdf
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.pdf
           path: |
             ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}*.pdf
       - name: Upload HTML artifact
-        if: inputs.format == 'html'
+        if: inputs.html
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.html

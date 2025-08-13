@@ -1,0 +1,16 @@
+# Render the sample spec on pushes to main.
+name: push
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  # Use the fresh container to render the samples.
+  render-samples:
+    uses: ./.github/workflows/render.yml
+    with:
+      container-version: latest
+      input: sample-spec.ocp
+      pdf: true
+      html: true
