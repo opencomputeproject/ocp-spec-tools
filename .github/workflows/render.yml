@@ -104,17 +104,10 @@ jobs:
           key: cache-${{ inputs.input }}-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
 
       # Upload all workflow artifacts
-      - name: Upload PDF artifact
-        if: ${{ inputs.pdf == true }}
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.pdf
+          name: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}
           path: |
-            ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}*.pdf
-      - name: Upload HTML artifact
-        if: ${{ inputs.html == true }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.html
-          path: |
-            ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}*.html
+            ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.pdf
+            ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.html
