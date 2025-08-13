@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-RESOURCE_DIR_NAME=ocp-pandoc-resources
-
 print_usage() {
   echo "Usage:"
   echo "$(basename "${0}") [options] [build.sh arguments]"
@@ -21,20 +19,19 @@ if test "${1}" == "--help"; then
   exit 0
 fi
 
-resource_dir="$(realpath $(dirname "$0")/${RESOURCE_DIR_NAME})"
-
 docker_image=${DOCKER_IMAGE:-"ghcr.io/trustedcomputinggroup/pandoc:latest"}
 
 echo "Launching container: ${docker_image}"
 docker run \
   --workdir=/workspace \
   --volume=$(pwd):/workspace \
-  --volume=${resource_dir}:/extra_resources/${RESOURCE_DIR_NAME} \
+  --volume=$(realpath $(dirname "$0")):/ocp-spec-tools \
   "${docker_image}" \
   --crossref=tcg \
-  --csl extra/${RESOURCE_DIR_NAME}/ieee.csl \
+  --resourcedir /ocp-spec-tools \
+  --csl /ocp-spec-tools/ocp-pandoc-resources/ieee.csl \
   --nogitversion \
-  --template extra/${RESOURCE_DIR_NAME}/pdf/ocp.tex \
-  --template_html extra/${RESOURCE_DIR_NAME}/html/ocp.html.template \
-  --html_stylesheet extra/${RESOURCE_DIR_NAME}/html/style.css \
+  --template /ocp-spec-tools/ocp-pandoc-resources/pdf/ocp.tex \
+  --template_html /ocp-spec-tools/ocp-pandoc-resources/html/ocp.html.template \
+  --html_stylesheet /ocp-spec-tools/ocp-pandoc-resources/html/style.css \
   "$@"
