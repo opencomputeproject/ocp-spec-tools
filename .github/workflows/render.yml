@@ -93,20 +93,18 @@ jobs:
             if [ -n "${gh_pages_html}" ]; then
               echo "Rendering ${src} to ${gh_pages_html}/index.html"
 
-              pushd "${src_dirname}"
+              (cd ${src_dirname} && exec \
+                /usr/bin/build.sh \
+                  --nogitversion \
+                  --crossref=tcg \
+                  --csl extra/ocp-pandoc-resources/ieee.csl \
+                  --template_html extra/ocp-pandoc-resources/html/ocp.html.template \
+                  --html_stylesheet extra/ocp-pandoc-resources/html/style.css \
+                  --html=index.html \
+                  "${src_basename}" \
+              )
 
-              /usr/bin/build.sh \
-                --nogitversion \
-                --crossref=tcg \
-                --csl extra/ocp-pandoc-resources/ieee.csl \
-                --template_html extra/ocp-pandoc-resources/html/ocp.html.template \
-                --html_stylesheet extra/ocp-pandoc-resources/html/style.css \
-                --html=index.html \
-                "${src_basename}"
-
-              popd
-
-              mkdir -p "${gh_pages_html}"
+              mkdir -p "gh-pages/${gh_pages_html}"
               mv "${src_dirname}/index.html" "gh-pages/${gh_pages_html}/"
             fi
 
