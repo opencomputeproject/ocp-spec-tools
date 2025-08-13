@@ -6,7 +6,7 @@ name: render
 on:
   workflow_call:
     inputs:
-      container:
+      tcg-container:
         description: the Docker container to use (default is trustedcomputinggroup/pandoc)
         required: false
         type: string
@@ -20,61 +20,23 @@ on:
         required: true
         type: string
       inputs:
-        description: a JSON string representing a list of inputs to render
+        description: >-
+          A JSON string representing a list of inputs to render. Each element must be an object with the following fields:
+
+          - src (string): Path to source .ocp file
+          - append_git_rev_to_version (bool): Append "(Git commit ${commit_hash})" to the version string
+          - gh_pages_html (string): Path to write a directory holding a rendered index.html file
+          - gh_pages_pdf (string): Path to write a directory holding a rendered PDF file
         required: true
         type: string
-      append_git_rev_to_version:
-        description: Append "(Git commit ${commit_hash})" to the version string
-        required: false
-        type: boolean
-        default: false
-      pdf:
-        description: 'Render to PDF'
-        required: false
-        type: boolean
-        default: false
-      html:
-        description: 'Render to HTML'
-        required: false
-        type: boolean
-        default: false
 
 jobs:
   render:
-    strategy:
-      matrix:
-        item: ${{ fromJson(inputs.inputs) }}
     runs-on: ubuntu-latest
     container:
-      image: ${{ inputs.container }}:${{ inputs.tcg-container-version }}
+      image: ${{ inputs.tcg-container }}:${{ inputs.tcg-container-version }}
     name: Render
     steps:
-      # Use the input file name (no extension) as the base filename for the output
-      - name: Calculate output file name
-        id: gen_paths
-        run: |
-          input_path="${{ matrix.item }}"
-
-          input_basename=$(basename "${input_path}")
-          input_dirname=$(dirname "${input_path}")
-          output_filename_path="${input_path%.*}"
-          output_filename_base=$(basename "${output_filename_path}")
-
-          # Artifact names can only have alphabetic characters, underscores, dashes, or periods.
-          artifact_name=$(echo "${output_filename_base}" | sed "s/[^a-zA-Z_.-]/./g")
-
-          echo INPUT_BASENAME="${input_basename}" >> "$GITHUB_OUTPUT"
-          echo INPUT_DIRNAME="${input_dirname}" >> "$GITHUB_OUTPUT"
-          echo OUTPUT_FILENAME_PATH="${output_filename_path}" >> "$GITHUB_OUTPUT"
-          echo OUTPUT_FILENAME_BASE="${output_filename_base}" >> "$GITHUB_OUTPUT"
-          echo ARTIFACT_NAME="${artifact_name}" >> "$GITHUB_OUTPUT"
-
-          echo input_basename: ${input_basename}
-          echo input_dirname: ${input_dirname}
-          echo output_filename_path: ${output_filename_path}
-          echo output_filename_base: ${output_filename_base}
-          echo artifact_name: ${artifact_name}
-
       - name: Checkout inputs
         uses: actions/checkout@v4
         with:
@@ -89,8 +51,7 @@ jobs:
           fetch-tags: true
           repository: "opencomputeproject/ocp-spec-tools"
           ref: ${{ inputs.ocp-template-ref }}
-          # The underlying tex and templates assume this exists under the "extra" folder.
-          path: "${{ format('{0}/extra', steps.gen_paths.outputs.INPUT_DIRNAME) }}"
+          path: "ocp-spec-tools"
 
       # Use input file and container version in the cache key so that the cache
       # is invalidated upon file change or container version change.
@@ -98,52 +59,105 @@ jobs:
         id: cache-restore
         uses: actions/cache/restore@v4
         with:
-          path: "${{ format('{0}/.cache/**/*', steps.gen_paths.outputs.INPUT_DIRNAME) }}"
-          key: cache-${{ matrix.item }}-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
-          restore-keys: cache-${{ matrix.item }}-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}
-
-      # Let the container take ownership of the repo dir, in case the user wants to check in the results.
-      # Workaround to https://github.com/actions/runner/issues/2033
-      - name: Chown repo dir
-        run: chown -R $(id -u):$(id -g) $PWD
-        shell: sh
-
-      # The sed command handles the following transformations:
-      # `version: 1.3` --> `version: 1.3 (Git commit xyz)`
-      # `version: "2.0"` --> `version: "2.0 (Git commit xyz)"`
-      - name: Append git revision to version string
-        if: inputs.append_git_rev_to_version != ''
-        working-directory: ${{ steps.gen_paths.outputs.INPUT_DIRNAME }}
-        run: |
-          sed -i -r "/^---$/,/^---$/s/^(version: \"?[^\"]*)(\"?)$/\1 (Git commit $(git rev-parse --short HEAD))\2/g" ${{ steps.gen_paths.outputs.INPUT_BASENAME }}
+          path: "**/.cache/**/*"
+          key: cache-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
+          restore-keys: cache-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}
 
       - name: Perform rendering
-        working-directory: ${{ steps.gen_paths.outputs.INPUT_DIRNAME }}
-        run: >
-          /usr/bin/build.sh
-          --nogitversion
-          --crossref=tcg
-          --csl extra/ocp-pandoc-resources/ieee.csl
-          --template extra/ocp-pandoc-resources/pdf/ocp.tex
-          --template_html extra/ocp-pandoc-resources/html/ocp.html.template
-          --html_stylesheet extra/ocp-pandoc-resources/html/style.css
-          $( ${{ inputs.pdf }}  && echo --pdf=${{ steps.gen_paths.outputs.OUTPUT_FILENAME_BASE }}.pdf )
-          $( ${{ inputs.html }} && echo --html=${{ steps.gen_paths.outputs.OUTPUT_FILENAME_BASE }}.html )
-          ${{ steps.gen_paths.outputs.INPUT_BASENAME }}
+        run: |
+          # Let the container take ownership of the repo dir, in case the user wants to check in the results.
+          # Workaround to https://github.com/actions/runner/issues/2033
+          chown -R $(id -u):$(id -g) $PWD
+
+          echo "${{ inputs.inputs }}" | jq -c '.[]' | while read -r input; do
+            src=$(echo "$input" | jq -r '.src')
+            gh_pages_html=$(echo "$input" | jq -r '.gh_pages_html')
+            gh_pages_pdf=$(echo "$input" | jq -r '.gh_pages_pdf')
+
+            src_dirname=$(dirname "${src}")
+            src_basename=$(basename "${src}")
+
+            # The underlying tex and templates assume this exists under the "extra" folder.
+            cp -R ocp-spec-tools "${src_dirname}/extra"
+
+            commit_hash=$(git rev-parse --short HEAD)
+
+            if echo "$input" | jq -e '.append_git_rev_to_version' > /dev/null; then
+              echo "Appending git rev to version string in ${src}"
+
+              # The sed command handles the following transformations:
+              # `version: 1.3` --> `version: 1.3 (Git commit xyz)`
+              # `version: "2.0"` --> `version: "2.0 (Git commit xyz)"`
+              sed -i -r "/^---$/,/^---$/s/^(version: \"?[^\"]*)(\"?)$/\1 (Git commit ${commit_hash})\2/g" "${src}"
+            fi
+
+            if [[ -n "${gh_pages_html}" ]]; then
+              echo "Rendering ${src} to ${gh_pages_html}/index.html"
+
+              pushd "${src_dirname}"
+
+              /usr/bin/build.sh \
+                --nogitversion \
+                --crossref=tcg \
+                --csl extra/ocp-pandoc-resources/ieee.csl \
+                --template_html extra/ocp-pandoc-resources/html/ocp.html.template \
+                --html_stylesheet extra/ocp-pandoc-resources/html/style.css \
+                --html=index.html \
+                "${src_basename}"
+
+              popd
+
+              mkdir -p "${gh_pages_html}"
+              mv "${src_dirname}/index.html" "gh-pages/${gh_pages_html}/"
+            fi
+
+            if [[ -n "${gh_pages_pdf}" ]]; then
+              # {parent dir name}_{filename sans extension}_{git commit hash}.pdf
+              pdf_name="$(basename "${src_dirname}")_${src_basename%.*}_${commit_hash}.pdf"
+
+              echo "Rendering ${src} to ${gh_pages_html}/${pdf_name}"
+
+              pushd "${src_dirname}"
+
+              /usr/bin/build.sh \
+                --nogitversion \
+                --crossref=tcg \
+                --csl extra/ocp-pandoc-resources/ieee.csl \
+                --template extra/ocp-pandoc-resources/pdf/ocp.tex \
+                --pdf="${pdf_name}" \
+                "${src_basename}"
+
+              popd
+
+              mkdir -p "${gh_pages_pdf}"
+              mv "${src_dirname}/${pdf_name}" "gh-pages/${gh_pages_pdf}/"
+
+              # Produce a PDF viewer page.
+              cat > "gh-pages/${gh_pages_pdf}/index.html" << EOF
+                <html>
+                  <body style="margin:0">
+                    <iframe id="viewer" style="border:none" width="100%" height="100%"></iframe>
+                    <script type="text/javascript">
+                      // Forward the location hash to the iframe to allow deep-linking.
+                      document.getElementById("viewer").src = "${pdf_name}" + document.location.hash;
+                    </script>
+                  </body>
+                </html>
+              EOF
+            fi
+          done
         shell: sh
 
       - name: Save cached files
         id: cache-save
         uses: actions/cache/save@v4
         with:
-          path: "${{ format('{0}/.cache/**/*', steps.gen_paths.outputs.INPUT_DIRNAME) }}"
-          key: cache-${{ matrix.item }}-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
+          path: "**/.cache/**/*"
+          key: cache-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
 
       # Upload all workflow artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.gen_paths.outputs.ARTIFACT_NAME }}
-          path: |
-            ${{ steps.gen_paths.outputs.OUTPUT_FILENAME_PATH }}.pdf
-            ${{ steps.gen_paths.outputs.OUTPUT_FILENAME_PATH }}.html
+          name: rendered-specs
+          path: gh-pages

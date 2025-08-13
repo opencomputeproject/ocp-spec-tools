@@ -11,7 +11,7 @@ jobs:
     with:
       tcg-container-version: latest
       ocp-template-ref: main
-      inputs: '["sample-spec/spec.ocp"]'
-      append_git_rev_to_version: true
-      pdf: true
-      html: true
+      inputs: >-
+        [
+          { "src": "sample-spec/spec.ocp", "append_git_rev_to_version": true, "gh_pages_html": "sample-spec/HEAD", "gh_pages_pdf": "sample-spec/pdf/HEAD" },
+        ]
