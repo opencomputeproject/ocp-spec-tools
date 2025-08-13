@@ -93,7 +93,7 @@ jobs:
           --html_stylesheet extra/ocp-pandoc-resources/html/style.css
           $( ${{ inputs.pdf }}  && echo --pdf=${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.pdf )
           $( ${{ inputs.html }} && echo --html=${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.html )
-          ${{ inputs.input-md }}
+          ${{ inputs.input }}
         shell: sh
 
       - name: Save cached files
