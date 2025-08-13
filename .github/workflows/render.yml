@@ -7,12 +7,12 @@ on:
   workflow_call:
     inputs:
       tcg-container:
-        description: the Docker container to use (default is trustedcomputinggroup/pandoc)
+        description: the Docker container to use
         required: false
         type: string
         default: ghcr.io/trustedcomputinggroup/pandoc
       tcg-container-version:
-        description: the released version of the Docker container to use
+        description: the released version of the Docker container to use (see https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc)
         required: true
         type: string
       ocp-template-ref:
@@ -30,7 +30,7 @@ on:
         required: true
         type: string
       artifact-name:
-        description: Name of artifact to upload containing rendered specifications
+        description: name of artifact to upload containing rendered specifications
         required: false
         type: string
         default: rendered-specs

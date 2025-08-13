@@ -9,7 +9,7 @@ jobs:
   render-sample:
     uses: ./.github/workflows/render.yml
     with:
-      tcg-container-version: 0.18.12
+      tcg-container-version: latest
       ocp-template-ref: main
       inputs: >-
         [
