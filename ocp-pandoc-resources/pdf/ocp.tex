@@ -196,13 +196,13 @@ $highlighting-macros$
   \end{tcolorbox}
 }
 
-% Allows text in the code block to break on spaces, periods, slashes, and colons.
+% Allows text in the code block to break on spaces or non-spaces.
 \usepackage{fvextra}
 \DefineVerbatimEnvironment{Highlighting}{Verbatim}{
   commandchars=\\\{\},
   breaklines,
   breaknonspaceingroup,
-  breakafter=./:
+  breakanywhere
 }
 
 \newcommand{\BeginCodeBlock}[1]{
