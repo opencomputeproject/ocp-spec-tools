@@ -114,8 +114,6 @@ jobs:
 
               echo "Rendering ${src} to ${gh_pages_html}/${pdf_name}"
 
-              pushd "${src_dirname}"
-
               (cd "${src_dirname}" && exec \
                 /usr/bin/build.sh \
                   --nogitversion \
@@ -143,7 +141,7 @@ jobs:
           EOF
             fi
           done
-        shell: bash
+        shell: sh
 
       - name: Save cached files
         id: cache-save
