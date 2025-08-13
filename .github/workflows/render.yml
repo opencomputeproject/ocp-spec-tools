@@ -107,7 +107,7 @@ jobs:
         if: inputs.append_git_rev_to_version != ''
         working-directory: ${{ steps.gen_output_name.outputs.INPUT_DIRNAME }}
         run: |
-          sed -i -r "/^---$/,/^---$/s/^(version: \"?[^\"]*)(\"?)$/\1 (Git commit $(git rev-parse --short HEAD))\2/g" ${{ steps.gen_output_name.outputs.INPUT_BASENAME }}
+          pwd && ls -al && sed -i -r "/^---$/,/^---$/s/^(version: \"?[^\"]*)(\"?)$/\1 (Git commit $(git rev-parse --short HEAD))\2/g" ${{ steps.gen_output_name.outputs.INPUT_BASENAME }}
 
       - name: Perform rendering
         working-directory: ${{ steps.gen_output_name.outputs.INPUT_DIRNAME }}
