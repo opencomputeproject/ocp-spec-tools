@@ -58,8 +58,7 @@ jobs:
           ref: ${{ inputs.ocp-template-ref }}
           path: "ocp-spec-tools"
 
-      # Use input file and container version in the cache key so that the cache
-      # is invalidated upon file change or container version change.
+      # Invalidate the cache if the container or OCP template versions change.
       - name: Restore cached files
         id: cache-restore
         uses: actions/cache/restore@v4
@@ -73,6 +72,9 @@ jobs:
           # Work around "detected dubious ownership in repository" errors.
           chown -R $(id -u):$(id -g) $PWD
 
+          ocp_spec_tools_path=$(realpath ocp-spec-tools)
+          pandoc_resources_path="${ocp_spec_tools_path}/ocp-pandoc-resources"
+
           commit_hash=$(git rev-parse --short HEAD)
 
           echo '${{ inputs.inputs }}' | jq -c '.[]' | while read -r input; do
@@ -80,9 +82,6 @@ jobs:
 
             src_dirname=$(dirname "${src}")
             src_basename=$(basename "${src}")
-
-            # The underlying tex and templates assume this exists under the "extra" folder.
-            cp -R ocp-spec-tools "${src_dirname}/extra"
 
             if echo "${input}" | jq -e '.append_git_rev_to_version' > /dev/null; then
               echo "Appending git rev to version string in ${src}"
@@ -102,9 +101,10 @@ jobs:
                 /usr/bin/build.sh \
                   --nogitversion \
                   --crossref=tcg \
-                  --csl extra/ocp-pandoc-resources/ieee.csl \
-                  --template_html extra/ocp-pandoc-resources/html/ocp.html.template \
-                  --html_stylesheet extra/ocp-pandoc-resources/html/style.css \
+                  --resourcedir "${ocp_spec_tools_path}" \
+                  --csl "${ocp_spec_tools_path}/ocp-pandoc-resources/ieee.csl" \
+                  --template_html "${ocp_spec_tools_path}/ocp-pandoc-resources/html/ocp.html.template" \
+                  --html_stylesheet "${ocp_spec_tools_path}/ocp-pandoc-resources/html/style.css" \
                   --html=index.html \
                   "${src_basename}" \
               )
@@ -125,8 +125,9 @@ jobs:
                 /usr/bin/build.sh \
                   --nogitversion \
                   --crossref=tcg \
-                  --csl extra/ocp-pandoc-resources/ieee.csl \
-                  --template extra/ocp-pandoc-resources/pdf/ocp.tex \
+                  --resourcedir "${ocp_spec_tools_path}" \
+                  --csl "${ocp_spec_tools_path}/ocp-pandoc-resources/ieee.csl" \
+                  --template "${ocp_spec_tools_path}/ocp-pandoc-resources/pdf/ocp.tex" \
                   --pdf="${pdf_name}" \
                   "${src_basename}" \
               )

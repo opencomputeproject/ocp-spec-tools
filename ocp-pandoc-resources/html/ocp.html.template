@@ -72,7 +72,7 @@ $endfor$
 <body>
 <div class="markdown-body">
 <div align=center>
-<img src="extra/ocp-pandoc-resources/html/logo.svg" width="500px" alt="Logo">
+<img src="ocp-pandoc-resources/html/logo.svg" width="500px" alt="Logo">
 
 $if(title)$
 <header id="title-block-header">
