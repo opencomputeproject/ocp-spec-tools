@@ -15,6 +15,7 @@ jobs:
         [
           {
             "src": "sample-spec/spec.ocp",
+            "append_git_rev_to_version": true,
             "gh_pages_html": "sample-spec/HEAD"
           }
         ]
