@@ -15,6 +15,10 @@ on:
         description: the released version of the Docker container to use (see https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc)
         required: true
         type: string
+      ocp-template-ref:
+        description: Git branch, tag or SHA for opencomputeproject/ocp-spec-tools template resources
+        required: true
+        type: string
       inputs:
         description: >-
           A JSON string representing a list of inputs to render. Each element must be an object with the following fields:
@@ -38,12 +42,6 @@ jobs:
       image: ${{ inputs.tcg-container }}:${{ inputs.tcg-container-version }}
     name: Render
     steps:
-      - name: Get workflow version
-        id: workflow-version
-        uses: canonical/get-workflow-version-action@v1
-        with:
-          repository-name: opencomputeproject/ocp-spec-tools
-          file-name: render.yml
       - name: Checkout inputs
         uses: actions/checkout@v4
         with:
@@ -57,16 +55,16 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
           repository: "opencomputeproject/ocp-spec-tools"
-          ref: ${{ steps.workflow-version.outputs.sha }}
+          ref: ${{ inputs.ocp-template-ref }}
           path: "ocp-spec-tools"
 
-      # Invalidate the cache if the container version changes.
+      # Invalidate the cache if the container or OCP template versions change.
       - name: Cache files
         uses: actions/cache@v4
         with:
           path: "**/.cache/**/*"
-          key: cache-${{ inputs.tcg-container-version }}-${{ github.run_id }}
-          restore-keys: cache-${{ inputs.tcg-container-version }}
+          key: cache-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}-${{ github.run_id }}
+          restore-keys: cache-${{ inputs.tcg-container-version }}-${{ inputs.ocp-template-ref }}
 
       - name: Perform rendering
         run: |

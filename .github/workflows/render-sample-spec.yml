@@ -10,6 +10,7 @@ jobs:
     uses: ./.github/workflows/render.yml
     with:
       tcg-container-version: latest
+      ocp-template-ref: main
       inputs: >-
         [
           {
