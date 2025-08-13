@@ -72,7 +72,6 @@ jobs:
           chown -R $(id -u):$(id -g) $PWD
 
           ocp_spec_tools_path=$(realpath ocp-spec-tools)
-          pandoc_resources_path="${ocp_spec_tools_path}/ocp-pandoc-resources"
 
           commit_hash=$(git rev-parse --short HEAD)
 
