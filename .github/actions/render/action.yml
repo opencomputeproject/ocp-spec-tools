@@ -16,12 +16,12 @@ inputs:
     description: 'Render to PDF'
     required: false
     type: 'boolean'
-    default: 'true'
+    default: 'false'
   html:
     description: 'Render to HTML'
     required: false
     type: 'boolean'
-    default: 'true'
+    default: 'false'
 runs:
   using: 'composite'
   steps:

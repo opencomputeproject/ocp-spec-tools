@@ -76,8 +76,8 @@ jobs:
         with:
           input-md: ${{ inputs.input }}
           output-basename: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}
-          pdf: ${{ inputs.pdf == 'true' }}
-          html: ${{ inputs.html == 'true' }}
+          pdf: ${{ inputs.pdf }}
+          html: ${{ inputs.html }}
 
       # Upload all workflow artifacts
       - name: Upload PDF artifact
