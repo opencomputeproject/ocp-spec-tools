@@ -53,9 +53,11 @@ jobs:
       - name: Calculate output file name
         id: gen_paths
         run: |
-          input_basename=$(basename "${{ matrix.item }}")
-          input_dirname=$(dirname "${{ matrix.item }}")
-          output_filename_path="${${{ matrix.item }}%.*}"
+          input_path="${{ matrix.item }}"
+
+          input_basename=$(basename "${input_path}")
+          input_dirname=$(dirname "${input_path}")
+          output_filename_path="${input_path%.*}"
           output_filename_base=$(basename "${output_filename_path}")
 
           echo INPUT_BASENAME="${input_basename}" >> "$GITHUB_OUTPUT"
