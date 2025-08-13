@@ -91,8 +91,8 @@ jobs:
               sed -i -r "/^---$/,/^---$/s/^(version: \"?[^\"]*)(\"?)$/\1 (Git commit ${commit_hash})\2/g" "${src}"
             fi
 
-            gh_pages_html=$(echo "${input}" | jq -e -r '.gh_pages_html')
-            if [ $? -eq 0 ]; then
+            gh_pages_html=$(echo "${input}" | jq -e -r '.gh_pages_html') || gh_pages_html=""
+            if [ -n "${gh_pages_html}" ]; then
               echo "Rendering ${src} to gh-pages/${gh_pages_html}/index.html"
 
               (cd "${src_dirname}" && exec \
@@ -111,8 +111,8 @@ jobs:
               mv "${src_dirname}/index.html" "gh-pages/${gh_pages_html}/"
             fi
 
-            gh_pages_pdf=$(echo "${input}" | jq -e -r '.gh_pages_pdf')
-            if [ $? -eq 0 ]; then
+            gh_pages_pdf=$(echo "${input}" | jq -e -r '.gh_pages_pdf') || gh_pages_pdf=""
+            if [ -n "${gh_pages_pdf}" ]; then
               # [parent dir name]_[filename sans extension]_[git commit hash].pdf
               pdf_name="$(basename "${src_dirname}")_${src_basename%.*}_${commit_hash}.pdf"
 
