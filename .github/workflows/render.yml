@@ -65,6 +65,10 @@ jobs:
 
       - name: Perform rendering
         run: |
+          # Let the container take ownership of the repo dir, in case the user wants to check in the results.
+          # Workaround to https://github.com/actions/runner/issues/2033.
+          chown -R $(id -u):$(id -g) $PWD
+
           echo '${{ inputs.inputs }}' | jq -c '.[]' | while read -r input; do
             src=$(echo "$input" | jq -r '.src')
             gh_pages_html=$(echo "$input" | jq -r '.gh_pages_html')
