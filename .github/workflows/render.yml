@@ -22,13 +22,13 @@ on:
       pdf:
         description: 'Render to PDF'
         required: false
-        type: 'boolean'
-        default: 'false'
+        type: boolean
+        default: false
       html:
         description: 'Render to HTML'
         required: false
-        type: 'boolean'
-        default: 'false'
+        type: boolean
+        default: false
 
 jobs:
   render:
@@ -81,14 +81,14 @@ jobs:
 
       # Upload all workflow artifacts
       - name: Upload PDF artifact
-        if: inputs.pdf
+        if: ${{ github.event.inputs.pdf == true }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.pdf
           path: |
             ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}*.pdf
       - name: Upload HTML artifact
-        if: inputs.html
+        if: ${{ github.event.inputs.html == true }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.gen_output_name.outputs.OUTPUT_FILENAME }}.html
