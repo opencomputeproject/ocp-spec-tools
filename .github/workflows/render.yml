@@ -83,7 +83,7 @@ jobs:
         shell: sh
 
       # Perform the render.
-      - run: |
+      - run: >
           /usr/bin/build.sh
           --nogitversion
           --crossref=tcg
