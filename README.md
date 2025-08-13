@@ -15,13 +15,13 @@ it's easiest to use TCG's published [Docker containers](https://github.com/trust
 ./docker-pull.sh
 
 # Must run from the directory containing the input file
-./docker-run.sh --pdf sample-spec.pdf sample-spec.ocp
+(cd sample-spec && ../docker-run.sh --pdf sample-spec.pdf sample-spec.ocp)
 ```
 
 HTML support is experimental.
 
 ```sh
-./docker-run.sh --html sample-spec.html sample-spec.ocp
+(cd sample-spec && ../docker-run.sh --html sample-spec.html sample-spec.ocp)
 ```
 
 ## How to Build Locally
