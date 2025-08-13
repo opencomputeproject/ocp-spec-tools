@@ -59,10 +59,12 @@ $endfor$
 		display: table-cell;
 		padding-right: 8px;
 		text-align: right;
+		vertical-align: top;
 	}
 
 	#refs .csl-right-inline {
 		display: table-cell;
+		vertical-align: top;
 	}
 
 </style>
