@@ -145,6 +145,8 @@ jobs:
                 </html>
           EOF
             fi
+
+            echo "Render complete"
           done
         shell: sh
 
