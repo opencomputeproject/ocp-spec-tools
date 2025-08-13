@@ -91,7 +91,7 @@ jobs:
             fi
 
             if [ -n "${gh_pages_html}" ]; then
-              echo "Rendering ${src} to ${gh_pages_html}/index.html"
+              echo "Rendering ${src} to gh-pages/${gh_pages_html}/index.html"
 
               (cd "${src_dirname}" && exec \
                 /usr/bin/build.sh \
@@ -112,7 +112,7 @@ jobs:
               # {parent dir name}_{filename sans extension}_{git commit hash}.pdf
               pdf_name="$(basename "${src_dirname}")_${src_basename%.*}_${commit_hash}.pdf"
 
-              echo "Rendering ${src} to ${gh_pages_html}/${pdf_name}"
+              echo "Rendering ${src} to gh-pages/${gh_pages_html}/${pdf_name}"
 
               (cd "${src_dirname}" && exec \
                 /usr/bin/build.sh \
