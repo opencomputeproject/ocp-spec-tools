@@ -59,7 +59,9 @@ jobs:
           input_dirname=$(dirname "${input_path}")
           output_filename_path="${input_path%.*}"
           output_filename_base=$(basename "${output_filename_path}")
-          artifact_name=$(sed "s/[^a-zA-Z_.-]/./g" <<< "${output_filename_base}")
+
+          # Artifact names can only have alphabetic characters, underscores, dashes, or periods.
+          artifact_name=$(echo "${output_filename_base}" | sed "s/[^a-zA-Z_.-]/./g")
 
           echo INPUT_BASENAME="${input_basename}" >> "$GITHUB_OUTPUT"
           echo INPUT_DIRNAME="${input_dirname}" >> "$GITHUB_OUTPUT"
