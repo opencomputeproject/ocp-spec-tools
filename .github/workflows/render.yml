@@ -80,10 +80,15 @@ jobs:
           echo '${{ inputs.inputs }}' | jq -c '.[]' | while read -r input; do
             src=$(echo "$input" | jq -r '.src')
 
+            append_git_rev=$(echo "${input}" | jq 'if .append_git_rev_to_version == true then 1 else 0 end')
+
+            gh_pages_html=$(echo "${input}" | jq -e -r '.gh_pages_html') || gh_pages_html=""
+            gh_pages_pdf=$(echo "${input}" | jq -e -r '.gh_pages_pdf') || gh_pages_pdf=""
+
             src_dirname=$(dirname "${src}")
             src_basename=$(basename "${src}")
 
-            if echo "${input}" | jq -e '.append_git_rev_to_version' > /dev/null; then
+            if [ "${append_git_rev}" -eq 1 ]; then
               echo "Appending git rev to version string in ${src}"
 
               # `version: 1.3` --> `version: 1.3 (Git commit xyz)`
@@ -91,7 +96,6 @@ jobs:
               sed -i -r "/^---$/,/^---$/s/^(version: \"?[^\"]*)(\"?)$/\1 (Git commit ${commit_hash})\2/g" "${src}"
             fi
 
-            gh_pages_html=$(echo "${input}" | jq -e -r '.gh_pages_html') || gh_pages_html=""
             if [ -n "${gh_pages_html}" ]; then
               echo "Rendering ${src} to gh-pages/${gh_pages_html}/index.html"
 
@@ -111,7 +115,6 @@ jobs:
               mv "${src_dirname}/index.html" "gh-pages/${gh_pages_html}/"
             fi
 
-            gh_pages_pdf=$(echo "${input}" | jq -e -r '.gh_pages_pdf') || gh_pages_pdf=""
             if [ -n "${gh_pages_pdf}" ]; then
               # [parent dir name]_[filename sans extension]_[git commit hash].pdf
               pdf_name="$(basename "${src_dirname}")_${src_basename%.*}_${commit_hash}.pdf"
