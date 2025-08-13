@@ -29,6 +29,11 @@ on:
           - gh_pages_pdf (string): Path to write a directory holding a rendered PDF file
         required: true
         type: string
+      artifact-name:
+        description: Name of artifact to upload containing rendered specifications
+        required: false
+        type: string
+        default: rendered-specs
 
 jobs:
   render:
@@ -154,5 +159,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: rendered-specs
+          name: ${{ inputs.artifact-name }}
           path: gh-pages
