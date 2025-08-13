@@ -37,7 +37,7 @@ runs:
     # workaround to https://github.com/actions/runner/issues/2033
     - run: chown -R $(id -u):$(id -g) $PWD
       shell: sh
-    - run: >
+    - run: |
         /usr/bin/build.sh
         --nogitversion
         --crossref=tcg
