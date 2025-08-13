@@ -16,12 +16,12 @@ inputs:
     description: 'Render to PDF'
     required: false
     type: 'boolean'
-    default: 'false'
+    default: 'true'
   html:
     description: 'Render to HTML'
     required: false
     type: 'boolean'
-    default: 'false'
+    default: 'true'
 runs:
   using: 'composite'
   steps:
@@ -39,12 +39,12 @@ runs:
       shell: sh
     - run: >
         /usr/bin/build.sh
-          --nogitversion
-          --crossref=tcg
-          --csl extra/ocp-pandoc-resources/ieee.csl
-          --template extra/ocp-pandoc-resources/pdf/ocp.tex
-          --template_html extra/ocp-pandoc-resources/html/ocp.html.template
-          --html_stylesheet extra/ocp-pandoc-resources/html/style.css
+        --nogitversion
+        --crossref=tcg
+        --csl extra/ocp-pandoc-resources/ieee.csl
+        --template extra/ocp-pandoc-resources/pdf/ocp.tex
+        --template_html extra/ocp-pandoc-resources/html/ocp.html.template
+        --html_stylesheet extra/ocp-pandoc-resources/html/style.css
         $( ${{ inputs.pdf }}  && echo --pdf=${{ inputs.output-basename }}.pdf )
         $( ${{ inputs.html }} && echo --html=${{ inputs.output-basename }}.html )
         ${{ inputs.input-md }}
