@@ -112,7 +112,7 @@ jobs:
 
             
           done
-        shell: sh
+        shell: bash
 
       - name: Save cached files
         id: cache-save
