@@ -75,7 +75,7 @@ jobs:
 
           commit_hash=$(git rev-parse --short HEAD)
 
-          echo '${{ inputs.inputs }}' | jq -c '.[]' | while read -r input; do
+          jq -c '.[]' <<EOF | while read -r input; do
             src=$(echo "$input" | jq -r '.src')
 
             append_git_rev=$(echo "${input}" | jq 'if .append_git_rev_to_version == true then 1 else 0 end')
@@ -134,7 +134,7 @@ jobs:
               mv "${src_dirname}/${pdf_name}" "gh-pages/${gh_pages_pdf}/"
 
               # Produce a PDF viewer page.
-              cat > "gh-pages/${gh_pages_pdf}/index.html" << EOF
+              cat > "gh-pages/${gh_pages_pdf}/index.html" << EOF_PDF
                 <html>
                   <body style="margin:0">
                     <iframe id="viewer" style="border:none" width="100%" height="100%"></iframe>
@@ -144,11 +144,13 @@ jobs:
                     </script>
                   </body>
                 </html>
-          EOF
+          EOF_PDF
             fi
-
-            echo "Render complete"
           done
+          ${{ inputs.inputs }}
+          EOF
+
+          echo "Render complete"
         shell: sh
 
       # Upload all workflow artifacts
