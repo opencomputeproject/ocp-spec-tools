@@ -44,16 +44,10 @@ jobs:
     steps:
       - name: Checkout inputs
         uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.revision }}
-          fetch-depth: 0
-          fetch-tags: true
 
       - name: Checkout OCP template resources
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          fetch-tags: true
           repository: "opencomputeproject/ocp-spec-tools"
           ref: ${{ inputs.ocp-template-ref }}
           path: "ocp-spec-tools"
