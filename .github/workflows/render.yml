@@ -12,21 +12,21 @@ on:
         type: string
         default: ghcr.io/trustedcomputinggroup/pandoc
       tcg-container-version:
-        description: the released version of the Docker container to use (see https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc)
+        description: the released version of the Docker container to use (can use 'latest'; see https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc)
         required: true
         type: string
       ocp-template-ref:
-        description: Git branch, tag or SHA for opencomputeproject/ocp-spec-tools template resources
+        description: Git branch, tag or SHA for opencomputeproject/ocp-spec-tools template resources (can use 'stable')
         required: true
         type: string
       inputs:
         description: >-
           A JSON string representing a list of inputs to render. Each element must be an object with the following fields:
 
-          - src (string): Path to source .ocp file
-          - append_git_rev_to_version (bool): Append "(Git commit ${commit_hash})" to the version string
-          - gh_pages_html (string): Path to write a directory holding a rendered index.html file
-          - gh_pages_pdf (string): Path to write a directory holding a rendered PDF file
+          - src (string, required): Path to source .ocp file
+          - append_git_rev_to_version (bool, optional): Append "(Git commit ${commit_hash})" to the version string
+          - gh_pages_html (string, optional): Path to write a directory holding a rendered index.html file
+          - gh_pages_pdf (string, optional): Path to write a directory holding a rendered PDF file
         required: true
         type: string
       artifact-name:
@@ -76,7 +76,6 @@ jobs:
             src=$(echo "$input" | jq -r '.src')
 
             append_git_rev=$(echo "${input}" | jq 'if .append_git_rev_to_version == true then 1 else 0 end')
-
             gh_pages_html=$(echo "${input}" | jq -e -r '.gh_pages_html') || gh_pages_html=""
             gh_pages_pdf=$(echo "${input}" | jq -e -r '.gh_pages_pdf') || gh_pages_pdf=""
 
@@ -114,7 +113,7 @@ jobs:
               # [parent dir name]_[filename sans extension]_[git commit hash].pdf
               pdf_name="$(basename "${src_dirname}")_${src_basename%.*}_${commit_hash}.pdf"
 
-              echo "Rendering ${src} to gh-pages/${gh_pages_html}/${pdf_name}"
+              echo "Rendering ${src} to gh-pages/${gh_pages_pdf}/${pdf_name}"
 
               (cd "${src_dirname}" && exec \
                 /usr/bin/build.sh \
