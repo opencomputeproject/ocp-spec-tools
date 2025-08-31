@@ -44,9 +44,31 @@ When creating new diagrams, be sure to enable a white background. Otherwise, the
 
 This tooling supports multiple table syntaxes. See [here](https://pandoc.org/demo/example33/8.9-tables.html) for more details on each supported syntax.
 
-Oftentimes, fine-grained control of table column widths is needed to prevent text overflow in the rendered PDF. The column widths are based on the relative widths of the separator row after the column headers.
+Text may overflow table cells when rendered to PDF. There are several techniques for addressing this:
+
+- Shrink the page margin
+- Reduce the table font size
+- Manually adjust column widths
+
+The page margin can be adjusted by adding `geometry: "left=0.5in,right=0.5in"` to the YAML front-matter.
+
+Table font size can be adjusted like so:
 
 ```
+Table: some table {#tbl:some-table .small}  <-- or `.tiny` for even smaller font size
+
++-------+-------+
+| Col 1 | Col 2 |
++=======+=======+
+| Some  | text  |
++-------+-------+
+```
+
+Table column widths can be adjusted like so:
+
+```
+The column widths are based on the relative widths of the separator row after the column headers.
+
 | Col 1 | Col 2 | Col 3 | Col 4 |
 |----|---|-------|----|                     <-- The widths of the separators on this line determine column widths.
 | Some | text | of | varying length |
