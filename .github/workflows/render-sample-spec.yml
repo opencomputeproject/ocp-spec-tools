@@ -1,4 +1,7 @@
 # Render the sample spec on pushes to main.
+#
+# HTML URL: https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD
+# PDF URL: https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD/pdf
 name: render-sample-spec
 
 on:
@@ -20,3 +23,24 @@ jobs:
             "gh_pages_pdf": "sample-spec/HEAD/pdf"
           }
         ]
+      artifact-name: rendered-spec
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: [render-sample]
+    steps:
+      - name: Download rendered artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: rendered-spec
+          path: gh-pages
+      - name: Upload files as artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "gh-pages"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
