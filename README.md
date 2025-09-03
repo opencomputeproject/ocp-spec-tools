@@ -18,7 +18,7 @@ it's easiest to use TCG's published [Docker containers](https://github.com/trust
 (cd sample-spec && ../docker-run.sh --pdf sample-spec.pdf sample-spec.ocp)
 ```
 
-HTML support is experimental.
+HTML is also supported:
 
 ```sh
 (cd sample-spec && ../docker-run.sh --html sample-spec.html sample-spec.ocp)
