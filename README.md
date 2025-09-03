@@ -24,6 +24,10 @@ HTML is also supported:
 (cd sample-spec && ../docker-run.sh --html sample-spec.html sample-spec.ocp)
 ```
 
+## How to integrate with Github Pages
+
+This repo provides a [reusable Github workflow](.github/workflows/render.yml) for rendering specifications to PDF or HTML and publishing them to Github Pages. See [render-sample-spec.yml](.github/workflows/render-sample-spec.yml) for an example usage.
+
 ## How to Build Locally
 
 See the TCG Pandoc [README](https://github.com/TrustedComputingGroup/pandoc/blob/main/README.md#how-to-build-locally) for how to build locally.
