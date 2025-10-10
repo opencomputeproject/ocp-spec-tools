@@ -6,7 +6,14 @@ This repo contains tooling for rendering OCP specifications from Markdown.
 
 The scripts in this repository rely on TCG's [Pandoc](https://github.com/TrustedComputingGroup/pandoc) tooling. See the [Guide](https://github.com/TrustedComputingGroup/pandoc/blob/main/guide.tcg) (in PDF form on the TCG Pandoc [Releases](https://github.com/TrustedComputingGroup/pandoc/releases) page).
 
-## How to Run Locally
+## How to integrate with Github Pages
+
+This repo provides a [reusable Github workflow](.github/workflows/render.yml) for rendering specifications to PDF or HTML and publishing them to Github Pages. See [render-sample-spec.yml](.github/workflows/render-sample-spec.yml) for an example usage, which publishes [sample-spec/spec.ocp](sample-spec/spec.ocp) to the following URLs:
+
+- HTML URL: [https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD](https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD)
+- PDF URL: [https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD/pdf](https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD/pdf)
+
+## How to run locally
 
 Due to the complexity of the various Pandoc and LaTeX dependencies at work,
 it's easiest to use TCG's published [Docker containers](https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc).
@@ -24,16 +31,9 @@ HTML is also supported:
 (cd sample-spec && ../docker-run.sh --html sample-spec.html sample-spec.ocp)
 ```
 
-## How to integrate with Github Pages
+## How to build the tooling locally
 
-This repo provides a [reusable Github workflow](.github/workflows/render.yml) for rendering specifications to PDF or HTML and publishing them to Github Pages. See [render-sample-spec.yml](.github/workflows/render-sample-spec.yml) for an example usage, which publishes [sample-spec/spec.ocp](sample-spec/spec.ocp) to the following URLs:
-
-- HTML URL: [https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD](https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD)
-- PDF URL: [https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD/pdf](https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD/pdf)
-
-## How to Build Locally
-
-See the TCG Pandoc [README](https://github.com/TrustedComputingGroup/pandoc/blob/main/README.md#how-to-build-locally) for how to build locally.
+If you would like to make changes to the rendering tooling and test them locally, see the TCG Pandoc [README](https://github.com/TrustedComputingGroup/pandoc/blob/main/README.md#how-to-build-locally) for how to build the tooling on your local machine.
 
 ## Tips and tricks
 
