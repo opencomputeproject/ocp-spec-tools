@@ -15,9 +15,6 @@ This repo provides a [reusable Github workflow](.github/workflows/render.yml) fo
 
 ## How to run locally
 
-Due to the complexity of the various Pandoc and LaTeX dependencies at work,
-it's easiest to use TCG's published [Docker containers](https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc).
-
 ```sh
 ./docker-pull.sh
 
