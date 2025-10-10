@@ -16,6 +16,8 @@ This repo provides a [reusable Github workflow](.github/workflows/render.yml) fo
 ## How to run locally
 
 ```sh
+git clone git@github.com:opencomputeproject/ocp-spec-tools.git && cd ocp-spec-tools
+
 ./docker-pull.sh
 
 # Must run from the directory containing the input file
