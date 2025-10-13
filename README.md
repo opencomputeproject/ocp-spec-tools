@@ -10,8 +10,8 @@ The scripts in this repository rely on TCG's [Pandoc](https://github.com/Trusted
 
 This repo provides a [reusable Github workflow](.github/workflows/render.yml) for rendering specifications to PDF or HTML and publishing them to Github Pages. See [render-sample-spec.yml](.github/workflows/render-sample-spec.yml) for an example usage, which publishes [sample-spec/spec.ocp](sample-spec/spec.ocp) to the following URLs:
 
-- HTML URL: [https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD](https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD)
-- PDF URL: [https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD/pdf](https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD/pdf)
+- HTML: [https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD](https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD)
+- PDF: [https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD/pdf](https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD/pdf)
 
 ## How to run locally
 
