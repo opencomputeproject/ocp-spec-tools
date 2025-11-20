@@ -6,6 +6,10 @@ This repo contains tooling for rendering OCP specifications from Markdown.
 
 The scripts in this repository rely on TCG's [Pandoc](https://github.com/TrustedComputingGroup/pandoc) tooling. See the [Guide](https://github.com/TrustedComputingGroup/pandoc/blob/main/guide.tcg) (in PDF form on the TCG Pandoc [Releases](https://github.com/TrustedComputingGroup/pandoc/releases) page).
 
+## How to install on a Windows platform
+
+On Windows platform, this tooling can be run on using the Windows Linux Subsystem (WLS) and Docker Desktop.  The installation flow is described in the [INSTALL_WINDOWS](INSTALL_WINDOWS.md) file.
+
 ## How to integrate with Github Pages
 
 This repo provides a [reusable Github workflow](.github/workflows/render.yml) for rendering specifications to PDF or HTML and publishing them to Github Pages. See [render-sample-spec.yml](.github/workflows/render-sample-spec.yml) for an example usage, which publishes [sample-spec/spec.ocp](sample-spec/spec.ocp) to the following URLs:
@@ -27,7 +31,7 @@ git clone git@github.com:opencomputeproject/ocp-spec-tools.git && cd ocp-spec-to
 HTML is also supported:
 
 ```sh
-(cd sample-spec && ../docker-run.sh --html sample-spec.html sample-spec.ocp)
+(cd sample-spec && ../docker-run.sh --html spec.html spec.ocp)
 ```
 
 ## How to build the tooling locally
