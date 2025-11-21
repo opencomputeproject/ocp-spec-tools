@@ -23,7 +23,28 @@ These steps are described in detail, below.
 1. On the Windows desktop, open the Microsoft Store app
 2. In the app, search for "docker"
 3. Install "Docker Desktop"
-    - A license for Docker may need to be obtained
+    - A license for Docker Desktop may need to be obtained.
+
+In lieu of Docker Desktop, the Docker daemon can be manually installed, by running these commands:
+
+```
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+```
+
+Test that Docker is installed by running:
+
+```
+sudo docker run hello-world
+```
 
 ## Clone the repository and pull tooling
 
