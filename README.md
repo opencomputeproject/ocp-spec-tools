@@ -19,6 +19,8 @@ This tooling requires Docker to be installed before it can run.
 
 Once Docker has been installed, the following commands will install the OCP spec rendering tooling.
 
+To run these commands on Windows, open the WLS app. This will launch a Command Window for Ubuntu, with the prompt at the home directory (~).
+
 ```sh
 # One-time setup.
 git clone git@github.com:opencomputeproject/ocp-spec-tools.git

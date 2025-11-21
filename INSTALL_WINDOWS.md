@@ -1,4 +1,4 @@
-# Introduction
+# Windows installation of Docker
 
 TCG publishes a Docker container to make installation easier.
 
@@ -46,35 +46,4 @@ Test that Docker is installed by running:
 sudo docker run hello-world
 ```
 
-## Clone the repository and pull tooling
-
-1. Get the path to the repository
-    - In a browser, go to https://github.com/opencomputeproject/ocp-spec-tools
-    - In the 'Code' dropdown, click the icon for "copy URL to clipboard"
-2. On the Windows desktop, open the WLS app.
-    - This will launch a Command Window for Ubuntu
-    - The prompt will be at the home directory (~)
-3. Execute the following command, where the \<URL\> is pasted from the clipboard
-
-```
-    git clone \<URL\>
-```
-
-4. Pull the docker files
-
-```
-    cd ocp-spec-tools
-    ./docker-pull.sh
-```
-
-## Convert test document
-
-The docker-run.sh commad must be run from the directory containing the input file
-
-```
-    cd sample-spec
-    ../docker-run.sh --pdf spec.pdf spec.ocp
-```
-
-The resulting file (spec.pdf) is placed in the current directory
-
+Finally, proceed to run the [shell commands](./README.md#how-to-run-locally) detailed in the README.
