@@ -6,19 +6,23 @@ This repo contains tooling for rendering OCP specifications from Markdown.
 
 The scripts in this repository rely on TCG's [Pandoc](https://github.com/TrustedComputingGroup/pandoc) tooling. See the [Guide](https://github.com/TrustedComputingGroup/pandoc/blob/main/guide.tcg) (in PDF form on the TCG Pandoc [Releases](https://github.com/TrustedComputingGroup/pandoc/releases) page).
 
-## How to install on a Windows platform
-
-On Windows platform, this tooling can be run on using the Windows Linux Subsystem (WLS) and Docker Desktop.  The installation flow is described in [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md).
-
 ## How to integrate with Github Pages
 
 This repo provides a [reusable Github workflow](.github/workflows/render.yml) for rendering specifications to PDF or HTML and publishing them to Github Pages. See [GITHUB_PAGES.md](GITHUB_PAGES.md) for details.
 
 ## How to run locally
 
+This tooling requires Docker to be installed before it can run.
+
+- On a Windows platform, this tooling can be run using Windows Linux Subsystem (WLS) and Docker Desktop. The installation flow is described in [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md).
+- On an Ubuntu platform, Docker can be installed by following [this](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) guide.
+
+Once Docker has been installed, the following commands will install the OCP spec rendering tooling.
+
 ```sh
-# One-time setup
-git clone git@github.com:opencomputeproject/ocp-spec-tools.git && ocp-spec-tools/docker-pull.sh
+# One-time setup.
+git clone git@github.com:opencomputeproject/ocp-spec-tools.git
+ocp-spec-tools/docker-pull.sh
 echo alias ocp_render=\"$(realpath ocp-spec-tools/docker-run.sh)\" >> ~/.bashrc && source ~/.bashrc
 
 # Demonstrating use with the sample specification.
