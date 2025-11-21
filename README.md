@@ -8,14 +8,11 @@ The scripts in this repository rely on TCG's [Pandoc](https://github.com/Trusted
 
 ## How to install on a Windows platform
 
-On Windows platform, this tooling can be run on using the Windows Linux Subsystem (WLS) and Docker Desktop.  The installation flow is described in the [INSTALL_WINDOWS](INSTALL_WINDOWS.md) file.
+On Windows platform, this tooling can be run on using the Windows Linux Subsystem (WLS) and Docker Desktop.  The installation flow is described in [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md).
 
 ## How to integrate with Github Pages
 
-This repo provides a [reusable Github workflow](.github/workflows/render.yml) for rendering specifications to PDF or HTML and publishing them to Github Pages. See [render-sample-spec.yml](.github/workflows/render-sample-spec.yml) for an example usage, which publishes [sample-spec/spec.ocp](sample-spec/spec.ocp) to the following URLs:
-
-- HTML: [https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD](https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD)
-- PDF: [https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD/pdf](https://opencomputeproject.github.io/ocp-spec-tools/sample-spec/HEAD/pdf)
+This repo provides a [reusable Github workflow](.github/workflows/render.yml) for rendering specifications to PDF or HTML and publishing them to Github Pages. See [GITHUB_PAGES.md](GITHUB_PAGES.md) for details.
 
 ## How to run locally
 
