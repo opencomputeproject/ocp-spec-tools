@@ -23,17 +23,17 @@ To run these commands on Windows, open the WLS app. This will launch a Command W
 
 ```sh
 # One-time setup.
-git clone git@github.com:opencomputeproject/ocp-spec-tools.git
-ocp-spec-tools/docker-pull.sh
-echo alias ocp_render=\"$(realpath ocp-spec-tools/docker-run.sh)\" >> ~/.bashrc && source ~/.bashrc
+$ git clone git@github.com:opencomputeproject/ocp-spec-tools.git
+$ ocp-spec-tools/docker-pull.sh
+$ echo alias ocp_render=\"$(realpath ocp-spec-tools/docker-run.sh)\" >> ~/.bashrc && source ~/.bashrc
 
 # Demonstrating use with the sample specification.
 # Must run from the directory containing the input file.
-cd ocp-spec-tools/sample-spec
-ocp_render --pdf spec.pdf spec.ocp
+$ cd ocp-spec-tools/sample-spec
+$ ocp_render --pdf spec.pdf spec.ocp
 
 # HTML is also supported.
-ocp_render --html spec.html spec.ocp
+$ ocp_render --html spec.html spec.ocp
 ```
 
 ## How to build the tooling locally
