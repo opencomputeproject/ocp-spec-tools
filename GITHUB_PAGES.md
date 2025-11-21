@@ -4,7 +4,7 @@ This repo provides tooling to enable Github to automatically render specificatio
 
 To enable this, add a file to `.github/workflows/deploy_pages.yml` with the following contents. Explanatory comments can be elided.
 
-The JSON portion within the following contents must be customized based on which specifications are to be rendered.
+The JSON portion within the contents below must be customized based on which specifications are to be rendered. See instructions inline.
 
 ```
 name: Deploy specifications to GitHub pages
@@ -53,7 +53,7 @@ jobs:
       #  - [optional] gh_pages_html: path to where the HTML file should be rendered.
       #  - [optional] gh_pages_pdf: path to where the PDF file should be rendered.
       inputs: >-
-        [                                                                        <-- 
+        [
           {
             "src": "specifications/spec-name/spec.ocp",
             "append_git_rev_to_version": true,
