@@ -78,8 +78,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: rendered-specs
-          path: gh-pages        # Writes rendered specs to the gh-pages path, where
-                                # they'll be published on the web.
+          path: gh-pages
       - name: Upload static files as artifact
         uses: actions/upload-pages-artifact@v3
         with:
