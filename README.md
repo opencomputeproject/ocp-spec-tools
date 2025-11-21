@@ -22,11 +22,11 @@ This repo provides a [reusable Github workflow](.github/workflows/render.yml) fo
 ```sh
 git clone git@github.com:opencomputeproject/ocp-spec-tools.git && ocp-spec-tools/docker-pull.sh
 
-# Optional
-alias ocp_run=$(realpath ocp-spec-tools/docker-run.sh)
+# Optional.
+echo alias ocp_run=\"$(realpath ocp-spec-tools/docker-run.sh)\" >> ~/.bashrc && source ~/.bashrc
 
 # Must run from the directory containing the input file
-cd sample-spec
+cd ocp-spec-tools/sample-spec
 ocp_run --pdf spec.pdf spec.ocp
 ```
 
