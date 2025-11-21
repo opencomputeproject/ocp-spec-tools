@@ -28,17 +28,20 @@ jobs:
   # Name of this particular job. Referenced below with "needs: [spec-render]"
   spec-render:
     # "@stable" refers to the 'stable' tag at https://github.com/opencomputeproject/ocp-spec-tools/tags.
-    # This tag will be updated as new features are added. This string could also be a git commit hash to
-    # pin to a particular version, but if there are bug fixes the hash would need to be updated.
+    # This tag will be updated as new features or fixes are added. This string could also be a git commit
+    # hash to pin to a particular version, but if there are bug fixes the hash would need to be updated.
     uses: opencomputeproject/ocp-spec-tools/.github/workflows/render.yml@stable
+
     with:
-      # Release versions listed at https://github.com/trustedComputingGroup/pandoc/releases
+      # Release versions listed at https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc
+      # Can use 'latest' to automatically pick up latest fixes, but may experience breakages if bugs are
+      # introduced.
       tcg-container-version: 0.18.14
-      # The previous "stable" in `render.yml@stable` refers to the version of the "render.yml" file,
-      # whereas this refers to the version of the template files at
-      # https://github.com/opencomputeproject/ocp-spec-tools/tree/main/ocp-pandoc-resources that are
-      # used to render the specifications.
-      ocp-template-ref: stable
+
+      # This refers to the version of the https://github.com/opencomputeproject/ocp-spec-tools repo used
+      # to render the specifications. Can use 'stable' to automatically pick up latest fixes, but may
+      # experience breakages if bugs are introduced.
+      ocp-template-ref: da9a385438aed55dfbc51d982d11a5b3f1bc53e0
 
       # Spec configuration blob.
       #
