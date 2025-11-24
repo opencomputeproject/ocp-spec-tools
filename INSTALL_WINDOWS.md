@@ -5,7 +5,7 @@ TCG publishes a Docker container to make installation easier.
 A manual installation would require understanding the complexities of various Pandoc and LaTeX dependencies.
 
 On a system running Windows, the overall flow is:
-1. On Windows, install WSL (with Ubuntu) and Docker Desktop
+1. On Windows, install WSL (with Ubuntu) and Docker
 2. On Ubuntu, clone the repository and pull the Docker tooling
 
 These steps are described in detail, below.
@@ -18,7 +18,7 @@ These steps are described in detail, below.
    - This will install Ubuntu running as a WLS (Window Linux Subsytem) instance
    - "Ubuntu 24.04.1 LTS" was used to validate this README
 
-## Install Docker Desktop
+## Install Docker
 
 1. On the Windows desktop, open the Microsoft Store app
 2. In the app, search for "docker"
