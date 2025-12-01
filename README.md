@@ -14,7 +14,7 @@ This repo provides a [reusable Github workflow](.github/workflows/render.yml) fo
 
 This tooling requires Docker to be installed before it can run.
 
-- On a Windows platform, this tooling can be run using Windows Linux Subsystem (WLS) and Docker Desktop. The installation flow is described in [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md).
+- On a Windows platform, this tooling can be run using Windows Linux Subsystem (WLS) and Docker. The installation flow is described in [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md).
 - On an Ubuntu platform, Docker can be installed by following [this](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) guide.
 
 Once Docker has been installed, the following commands will install the OCP spec rendering tooling.
