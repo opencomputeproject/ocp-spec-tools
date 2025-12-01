@@ -20,10 +20,16 @@ These steps are described in detail, below.
 
 ## Install Docker
 
+There are two options to install Docker: via Docker Desktop, or manually installing the daemon.
+
+### Installing via Docker Desktop
+
 1. On the Windows desktop, open the Microsoft Store app
 2. In the app, search for "docker"
 3. Install "Docker Desktop"
     - A license for Docker Desktop may need to be obtained.
+
+### Manually installing the Docker daemon
 
 In lieu of Docker Desktop, the Docker daemon can be manually installed, by running these commands:
 
