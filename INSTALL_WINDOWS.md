@@ -20,14 +20,13 @@ These steps are described in detail, below.
 
 ## Install Docker
 
-There are two options to install Docker: via Docker Desktop, or manually installing the daemon.
+There are two options to install Docker: via Docker Desktop, or manually installing the daemon. The former may require a license.
 
 ### Installing via Docker Desktop
 
 1. On the Windows desktop, open the Microsoft Store app
 2. In the app, search for "docker"
 3. Install "Docker Desktop"
-    - A license for Docker Desktop may need to be obtained.
 
 ### Manually installing the Docker daemon
 
@@ -44,12 +43,16 @@ echo \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
+
+# The following command allows running Docker commands without sudo.
+# You will need to log out and back in before this change takes effect.
+sudo usermod -aG docker $USER
 ```
 
 Test that Docker is installed by running:
 
 ```
-sudo docker run hello-world
+docker run hello-world
 ```
 
 Finally, proceed to run the [shell commands](./README.md#how-to-run-locally) detailed in the README.
