@@ -36,7 +36,7 @@ jobs:
       # Release versions listed at https://github.com/trustedcomputinggroup/pandoc/pkgs/container/pandoc
       # Can use 'latest' to automatically pick up latest fixes, but may experience breakages if bugs are
       # introduced.
-      tcg-container-version: 0.18.15
+      tcg-container-version: 0.19.0
 
       # This refers to the version of the https://github.com/opencomputeproject/ocp-spec-tools repo used
       # to render the specifications. Can use 'stable' to automatically pick up latest fixes, but may
