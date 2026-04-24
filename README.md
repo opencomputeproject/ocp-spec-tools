@@ -136,6 +136,24 @@ There are a few uncommon flows that are known to not work.
 +----------+-----------------------------------------------------------+
 ```
 
+The following works instead:
+
+```
++----------+-----------------------------------------------------------+
+| Value    | Description                                               |
++==========+===========================================================+
+| 4h       | **Load KAT MEK**: Load a fixed MEK, along with the        |
+|          | auxiliary metadata specified by the **AUX** field, into   |
+|          | the encryption engine as specified by the **METD** field. |
+|          | The fixed MEK is as follows in hex string:                |
+|          |                                                           |
+|          | `0000 0000 0000 0000 0000 0000 0000 0000`\                |
+|          | `1111 1111 1111 1111 1111 1111 1111 1111`\                |
+|          | `2222 2222 2222 2222 2222 2222 2222 2222`\                |
+|          | `3333 3333 3333 3333 3333 3333 3333 3333`                 |
++----------+-----------------------------------------------------------+
+```
+
 #### Footnotes
 
 A footnote anchor can appear in a table cell. However, that footnote cannot be the first footnote in the document. It must be preceded by another one. But: that first footnote's anchor cannot be in a bulleted list; it must be in a regular paragraph.
