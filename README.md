@@ -112,3 +112,30 @@ It is recommended to use a plugin to aid in formatting grid tables. This [Table 
 Note: do not use the extension's "Table: Format All" command, as the extension misinterprets the YAML frontmatter as a table, and attempts to format it.
 
 Note: while grid tables support rowspan or colspan cells, this extension cannot format them. One workaround is to format the table with all edges present, and then as a last step, remove the edges needed to produce the desired rowspan or colspan cells.
+
+### Sharp edges
+
+There are a few uncommon flows that are known to not work.
+
+#### Verbatim code blocks inside tables
+
+```
++----------+-----------------------------------------------------------+
+| Value    | Description                                               |
++==========+===========================================================+
+| 4h       | **Load KAT MEK**: Load a fixed MEK, along with the        |
+|          | auxiliary metadata specified by the **AUX** field, into   |
+|          | the encryption engine as specified by the **METD** field. |
+|          | The fixed MEK is as follows in hex string:                |
+|          | ```                                                       |
+|          | 0000 0000 0000 0000 0000 0000 0000 0000                   |
+|          | 1111 1111 1111 1111 1111 1111 1111 1111                   |
+|          | 2222 2222 2222 2222 2222 2222 2222 2222                   |
+|          | 3333 3333 3333 3333 3333 3333 3333 3333                   |
+|          | ```                                                       |
++----------+-----------------------------------------------------------+
+```
+
+#### Footnotes
+
+A footnote anchor can appear in a table cell. However, that footnote cannot be the first footnote in the document. It must be preceded by another one. But: that first footnote's anchor cannot be in a bulleted list; it must be in a regular paragraph.
